@@ -87,7 +87,7 @@ public class ClientDataImportHandler extends AbstractDataImportHandler {
         String activationDate = readAsDate(ACTIVATION_DATE_COL, row);
         String active = readAsBoolean(ACTIVE_COL, row).toString();
         String dateOfBirth = readAsDate(DOB_COL, row);
-        String mobileNo = readAsBoolean(MOBILE_NO_COL, row).toString();
+        String mobileNo = readAsString(MOBILE_NO_COL, row).toString();
         
         if(clientType.equals("Individual")) {
             String firstName = readAsString(FIRST_NAME_COL, row);
