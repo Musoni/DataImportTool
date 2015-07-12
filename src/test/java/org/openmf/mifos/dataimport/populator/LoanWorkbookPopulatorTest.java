@@ -38,7 +38,7 @@ public class LoanWorkbookPopulatorTest {
     	 		"\"firstname\": \"Billy\",\"middlename\": \"T\",\"lastname\": \"Bob\",\"displayName\": \"Billy T Bob\",\"officeId\": 2,\"officeName\": \"Office1\"," +
     	 		"\"staffId\": 2,\"staffName\": \"Dzeko, Edin\"}]}");
 		
-		Mockito.when(restClient.get("groups?limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\": 1, \"name\": \"Group 1\", \"externalId\":" +
+		Mockito.when(restClient.get("groups?paged=true&limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\": 1, \"name\": \"Group 1\", \"externalId\":" +
     			" \"B1561\", \"status\": {\"id\": 300, \"code\": \"clientStatusType.active\", \"value\": \"Active\"},\"active\": true,\"activationDate\":" +
     			" [2013,9,1], \"officeId\": 1, \"officeName\": \"Head Office\", \"staffId\": 1, \"staffName\": \"Chatta, Sahil\", \"hierarchy\": \".1.\"}]}");
 		
@@ -63,7 +63,22 @@ public class LoanWorkbookPopulatorTest {
     	
     	Mockito.when(restClient.get("funds")).thenReturn("[{\"id\": 1,\"name\": \"Fund1\"}]");
         Mockito.when(restClient.get("codes/12/codevalues")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
-	    
+
+        
+        Mockito.when(restClient.get("codes/4/codevalues")).thenReturn("[{\"id\": 1,\"name\": \"Male\"}]");
+        Mockito.when(restClient.get("currencies")).thenReturn("{\n" +
+"    \"selectedCurrencyOptions\": [\n" +
+"        {\n" +
+"            \"code\": \"KES\",\n" +
+"            \"name\": \"Kenyan Shilling\",\n" +
+"            \"decimalPlaces\": 0,\n" +
+"            \"displaySymbol\": \"KSh\",\n" +
+"            \"nameCode\": \"currency.KES\",\n" +
+"            \"displayLabel\": \"Kenyan Shilling (KSh)\"\n" +
+"        }\n" +
+"    ]}");
+        
+        
         Boolean onlyLoanOfficers = Boolean.TRUE;
         LoanWorkbookPopulator loanWorkbookPopulator = new LoanWorkbookPopulator(new OfficeSheetPopulator(restClient),
         		new ClientSheetPopulator(restClient), new GroupSheetPopulator(restClient), new PersonnelSheetPopulator(onlyLoanOfficers, restClient),
@@ -73,7 +88,7 @@ public class LoanWorkbookPopulatorTest {
         Result result = loanWorkbookPopulator.populate(loanWorkbook);
         Assert.assertTrue(result.isSuccess());
         Mockito.verify(restClient, Mockito.atLeastOnce()).get("clients?limit=-1");
-        Mockito.verify(restClient, Mockito.atLeastOnce()).get("groups?limit=-1");
+        Mockito.verify(restClient, Mockito.atLeastOnce()).get("groups?paged=true&limit=-1");
         Mockito.verify(restClient, Mockito.atLeastOnce()).get("offices?limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("staff?limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("loanproducts");
@@ -113,7 +128,7 @@ public class LoanWorkbookPopulatorTest {
     	Assert.assertEquals("Repayment Type", row.getCell(30).getStringCellValue());
     	Assert.assertEquals("Client Name", row.getCell(LOOKUP_CLIENT_NAME_COL).getStringCellValue());
     	Assert.assertEquals("Client Activation Date", row.getCell(LOOKUP_ACTIVATION_DATE_COL).getStringCellValue());
-    	Assert.assertEquals("EXTERNAL_ID_COL", row.getCell(34).getStringCellValue());
+    	Assert.assertEquals("External Id", row.getCell(34).getStringCellValue());
     	//Date Lookup Table test
     	DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
     	row = loanSheet.getRow(1);

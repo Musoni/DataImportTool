@@ -18,6 +18,7 @@ import org.openmf.mifos.dataimport.handler.Result;
 import org.openmf.mifos.dataimport.populator.AbstractWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.OfficeSheetPopulator;
 import org.openmf.mifos.dataimport.populator.PersonnelSheetPopulator;
+import org.openmf.mifos.dataimport.populator.ExtrasSheetPopulator;
 
 public class ClientWorkbookPopulator extends AbstractWorkbookPopulator {
 
@@ -30,7 +31,10 @@ public class ClientWorkbookPopulator extends AbstractWorkbookPopulator {
     private static final int EXTERNAL_ID_COL = 5;
     private static final int ACTIVATION_DATE_COL = 6;
     private static final int ACTIVE_COL = 7;
-    private static final int WARNING_COL = 9;
+    private static final int MOBILE_NO_COL = 8;
+    private static final int DOB_COL = 9;
+    private static final int GENDER_COL = 10;
+    private static final int WARNING_COL = 11;
     private static final int RELATIONAL_OFFICE_NAME_COL = 16;
     private static final int RELATIONAL_OFFICE_OPENING_DATE_COL = 17;
     
@@ -39,11 +43,14 @@ public class ClientWorkbookPopulator extends AbstractWorkbookPopulator {
 	private OfficeSheetPopulator officeSheetPopulator;
 
 	private PersonnelSheetPopulator personnelSheetPopulator;
+        
+        private ExtrasSheetPopulator extrasSheetPopulator;
 
-    public ClientWorkbookPopulator(String clientType, OfficeSheetPopulator officeSheetPopulator, PersonnelSheetPopulator personnelSheetPopulator ) {
+    public ClientWorkbookPopulator(String clientType, OfficeSheetPopulator officeSheetPopulator, PersonnelSheetPopulator personnelSheetPopulator,  ExtrasSheetPopulator extrasSheetPopulator ) {
     	this.clientType = clientType;
     	this.officeSheetPopulator = officeSheetPopulator;
     	this.personnelSheetPopulator = personnelSheetPopulator;
+        this.extrasSheetPopulator = extrasSheetPopulator;
     }
 
     @Override
@@ -51,6 +58,9 @@ public class ClientWorkbookPopulator extends AbstractWorkbookPopulator {
     	Result result = officeSheetPopulator.downloadAndParse();
     	if(result.isSuccess()) {
     	   result = personnelSheetPopulator.downloadAndParse();
+    	}
+        if(result.isSuccess()) {
+    	   result = extrasSheetPopulator.downloadAndParse();
     	}
     	return result;
     }
@@ -61,6 +71,8 @@ public class ClientWorkbookPopulator extends AbstractWorkbookPopulator {
     	Result result = personnelSheetPopulator.populate(workbook);
     	if(result.isSuccess())
     	   result = officeSheetPopulator.populate(workbook);
+        if(result.isSuccess())
+    	   result = extrasSheetPopulator.populate(workbook);
         setLayout(clientSheet);
         setOfficeDateLookupTable(clientSheet, officeSheetPopulator.getOffices(), RELATIONAL_OFFICE_NAME_COL, RELATIONAL_OFFICE_OPENING_DATE_COL);
         if(result.isSuccess())
@@ -89,13 +101,19 @@ public class ClientWorkbookPopulator extends AbstractWorkbookPopulator {
         worksheet.setColumnWidth(EXTERNAL_ID_COL, 3500);
         worksheet.setColumnWidth(ACTIVATION_DATE_COL, 4000);
         worksheet.setColumnWidth(ACTIVE_COL, 2000);
+        worksheet.setColumnWidth(MOBILE_NO_COL, 5000);     
+        worksheet.setColumnWidth(DOB_COL, 4000);
+        worksheet.setColumnWidth(GENDER_COL, 4000);
         worksheet.setColumnWidth(RELATIONAL_OFFICE_NAME_COL, 6000);
         worksheet.setColumnWidth(RELATIONAL_OFFICE_OPENING_DATE_COL, 4000);
         writeString(OFFICE_NAME_COL, rowHeader, "Office Name*");
         writeString(STAFF_NAME_COL, rowHeader, "Staff Name*");
         writeString(EXTERNAL_ID_COL, rowHeader, "External ID");
         writeString(ACTIVATION_DATE_COL, rowHeader, "Activation Date*");
+        writeString(MOBILE_NO_COL, rowHeader, "Mobile No");
+        writeString(DOB_COL, rowHeader, "Date of Birth");
         writeString(ACTIVE_COL, rowHeader, "Active*");
+        writeString(GENDER_COL, rowHeader, "Gender");
         writeString(WARNING_COL, rowHeader, "All * marked fields are compulsory.");
         writeString(RELATIONAL_OFFICE_NAME_COL, rowHeader, "Office Name");
         writeString(RELATIONAL_OFFICE_OPENING_DATE_COL, rowHeader, "Opening Date");
@@ -109,6 +127,7 @@ public class ClientWorkbookPopulator extends AbstractWorkbookPopulator {
     	CellRangeAddressList staffNameRange = new  CellRangeAddressList(1, SpreadsheetVersion.EXCEL97.getLastRowIndex(), STAFF_NAME_COL, STAFF_NAME_COL);
     	CellRangeAddressList dateRange = new CellRangeAddressList(1, SpreadsheetVersion.EXCEL97.getLastRowIndex(), ACTIVATION_DATE_COL, ACTIVATION_DATE_COL);
     	CellRangeAddressList activeRange = new CellRangeAddressList(1, SpreadsheetVersion.EXCEL97.getLastRowIndex(), ACTIVE_COL, ACTIVE_COL);
+	CellRangeAddressList genderRange = new CellRangeAddressList(1, SpreadsheetVersion.EXCEL97.getLastRowIndex(), GENDER_COL, GENDER_COL);
 
     	DataValidationHelper validationHelper = new HSSFDataValidationHelper((HSSFSheet)worksheet);
     	
@@ -119,17 +138,21 @@ public class ClientWorkbookPopulator extends AbstractWorkbookPopulator {
     	DataValidationConstraint staffNameConstraint = validationHelper.createFormulaListConstraint("INDIRECT(CONCATENATE(\"Staff_\",$D1))");
     	DataValidationConstraint activationDateConstraint = validationHelper.createDateConstraint(DataValidationConstraint.OperatorType.BETWEEN, "=VLOOKUP($D1,$Q$2:$R" + (offices.size() + 1)+",2,FALSE)", "=TODAY()", "dd/mm/yy");
     	DataValidationConstraint activeConstraint = validationHelper.createExplicitListConstraint(new String[]{"True", "False"});
+        DataValidationConstraint genderConstraint = validationHelper.createFormulaListConstraint("Gender");
+
 
 
     	DataValidation officeValidation = validationHelper.createValidation(officeNameConstraint, officeNameRange);
     	DataValidation staffValidation = validationHelper.createValidation(staffNameConstraint, staffNameRange);
     	DataValidation activationDateValidation = validationHelper.createValidation(activationDateConstraint, dateRange);
     	DataValidation activeValidation = validationHelper.createValidation(activeConstraint, activeRange);
+        DataValidation genderValidation = validationHelper.createValidation(genderConstraint, genderRange);
 
     	worksheet.addValidationData(activeValidation);
         worksheet.addValidationData(officeValidation);
         worksheet.addValidationData(staffValidation);
         worksheet.addValidationData(activationDateValidation);
+        worksheet.addValidationData(genderValidation);
     	} catch (RuntimeException re) {
     		result.addError(re.getMessage());
     	}
@@ -150,6 +173,11 @@ public class ClientWorkbookPopulator extends AbstractWorkbookPopulator {
     	       name.setRefersToFormula("Staff!$B$" + officeNameToBeginEndIndexesOfStaff[0] + ":$B$" + officeNameToBeginEndIndexesOfStaff[1]);
     		}
     	}
+        
+        //Payment Type Name
+        Name genderGroup = clientWorkbook.createName();
+        genderGroup.setNameName("Gender");
+        genderGroup.setRefersToFormula("Extras!$H$2:$H$" + (extrasSheetPopulator.getGendersSize()+1));
     }
 
 }

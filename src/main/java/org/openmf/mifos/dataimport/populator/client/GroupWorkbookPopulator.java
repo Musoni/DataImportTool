@@ -20,9 +20,14 @@ import org.openmf.mifos.dataimport.populator.CenterSheetPopulator;
 import org.openmf.mifos.dataimport.populator.ClientSheetPopulator;
 import org.openmf.mifos.dataimport.populator.OfficeSheetPopulator;
 import org.openmf.mifos.dataimport.populator.PersonnelSheetPopulator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GroupWorkbookPopulator extends AbstractWorkbookPopulator {
 
+        private final static Logger logger = LoggerFactory.getLogger(GroupWorkbookPopulator.class);
+
+    
 	@SuppressWarnings("CPD-START")
     private static final int NAME_COL = 0;
     private static final int OFFICE_NAME_COL = 1;
@@ -64,6 +69,7 @@ public class GroupWorkbookPopulator extends AbstractWorkbookPopulator {
     @Override
     public Result downloadAndParse() {
     	Result result = officeSheetPopulator.downloadAndParse();
+
     	if(result.isSuccess()) {
     	   result = personnelSheetPopulator.downloadAndParse();
     	}
@@ -71,6 +77,7 @@ public class GroupWorkbookPopulator extends AbstractWorkbookPopulator {
      	   result = centerSheetPopulator.downloadAndParse();
      	}
     	if(result.isSuccess()) {
+                    logger.error("Clients Parsed");
      	   result = clientSheetPopulator.downloadAndParse();
      	}
     	return result;

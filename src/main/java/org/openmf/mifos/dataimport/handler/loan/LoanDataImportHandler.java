@@ -353,7 +353,7 @@ public class LoanDataImportHandler extends AbstractDataImportHandler {
             DisbursalData disbusalData = disbursalDates.get(rowIndex);
             String linkAccountId = disbusalData.getLinkAccountId();
             Gson gson = new Gson();
-            if (linkAccountId != null && linkAccountId != "") {
+            if (linkAccountId != null && !"".equals(linkAccountId)) {
                 String payload = gson.toJson(disbusalData.getLoanDisbursal());
                 restClient.post("loans/" + loanId + "?command=disbursetosavings", payload);
             } else {

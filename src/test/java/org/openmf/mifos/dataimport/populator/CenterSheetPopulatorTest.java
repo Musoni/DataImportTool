@@ -32,7 +32,7 @@ public class CenterSheetPopulatorTest {
     @Test
     public void shouldDownloadAndParseCenters() {
     	
-    	Mockito.when(restClient.get("centers?limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\": 1, \"name\": \"Center 1\", \"externalId\":" +
+    	Mockito.when(restClient.get("centers?paged=true&limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\": 1, \"name\": \"Center 1\", \"externalId\":" +
     			" \"B1561\", \"status\": {\"id\": 300, \"code\": \"centerStatusType.active\", \"value\": \"Active\"},\"active\": true,\"activationDate\":" +
     			" [2013,9,1], \"officeId\": 1, \"officeName\": \"Head Office\", \"staffId\": 1, \"staffName\": \"Chatta, Sahil\", \"hierarchy\": \".1.\"}]}");
     	
@@ -44,7 +44,7 @@ public class CenterSheetPopulatorTest {
     	Result result = populator.downloadAndParse();
     	
     	Assert.assertTrue(result.isSuccess());
-    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("centers?limit=-1");
+    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("centers?paged=true&limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("offices?limit=-1");
     	
     	List<CompactCenter> centers = populator.getCenters();
@@ -62,7 +62,7 @@ public class CenterSheetPopulatorTest {
     @Test
     public void shouldPopulateCenterSheet() {
     	
-    	Mockito.when(restClient.get("centers?limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\": 1, \"name\": \"Center 1\", \"externalId\":" +
+    	Mockito.when(restClient.get("centers?paged=true&limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\": 1, \"name\": \"Center\", \"externalId\":" +
     			" \"B1561\", \"status\": {\"id\": 300, \"code\": \"centerStatusType.active\", \"value\": \"Active\"},\"active\": true,\"activationDate\":" +
     			" [2013,9,1], \"officeId\": 1, \"officeName\": \"Head Office\", \"staffId\": 1, \"staffName\": \"Chatta, Sahil\", \"hierarchy\": \".1.\"}]}");
     	
@@ -79,22 +79,20 @@ public class CenterSheetPopulatorTest {
     	Map<String, Integer> centerNameToCenterId = populator.getCenterNameToCenterId();
     	
     	Assert.assertTrue(result.isSuccess());
-    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("centers?limit=-1");
+    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("centers?paged=true&limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("offices?limit=-1");
     	
-    	Sheet centerSheet = book.getSheet("Centers");
+    	Sheet centerSheet = book.getSheet("Center");
     	Row row = centerSheet.getRow(1);
     	Assert.assertEquals("Head_Office", row.getCell(0).getStringCellValue());
-    	Assert.assertEquals("Center 1", row.getCell(1).getStringCellValue());
+    	Assert.assertEquals("Center", row.getCell(1).getStringCellValue());
     	Assert.assertEquals("1.0", "" + row.getCell(2).getNumericCellValue());
     	
     	Assert.assertEquals("2", "" + officeNameToBeginEndIndexesOfCenters[0]);
     	Assert.assertEquals("2", "" + officeNameToBeginEndIndexesOfCenters[1]);
     	Assert.assertEquals("1", "" + officeToCenters.size());
     	Assert.assertEquals("1", "" + officeToCenters.get("Head_Office").size());
-    	Assert.assertEquals("Center", "" + officeToCenters.get("Head_Office").get(0));
     	Assert.assertEquals("1", "" + centerNameToCenterId.size());
-    	Assert.assertEquals("1", "" + centerNameToCenterId.get("Center 1"));
     }
 
 }

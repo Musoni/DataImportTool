@@ -26,8 +26,14 @@ public class Client {
     
     private final String activationDate;
     
+    private final String mobileNo;
+        
+    private final String dateOfBirth;
+   
+    private final String genderId;
     
-    public Client(String firstname, String lastname, String middlename, String activationDate, String active, String externalId, String officeId, String staffId, Integer rowIndex ) {
+    
+    public Client(String firstname, String lastname, String middlename, String activationDate, String active, String externalId, String officeId, String staffId, String mobileNo, String dateOfBirth, String genderId, Integer rowIndex ) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.middlename = middlename;
@@ -39,6 +45,9 @@ public class Client {
         this.rowIndex = rowIndex;
         this.dateFormat = "dd MMMM yyyy";
         this.locale = Locale.ENGLISH;
+        this.mobileNo = mobileNo;
+        this.dateOfBirth = dateOfBirth;
+        this.genderId = genderId;
     }
     
     public String getFirstName() {
@@ -84,4 +93,18 @@ public class Client {
     public Integer getRowIndex() {
         return rowIndex;
     }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public String getGenderId() {
+        return genderId;
+    }
+    
+    
 }

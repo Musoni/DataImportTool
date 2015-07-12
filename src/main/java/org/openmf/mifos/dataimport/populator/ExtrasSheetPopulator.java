@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.openmf.mifos.dataimport.dto.Currency;
+import org.openmf.mifos.dataimport.dto.Gender;
 import org.openmf.mifos.dataimport.dto.PaymentType;
 import org.openmf.mifos.dataimport.dto.loan.Fund;
 import org.openmf.mifos.dataimport.handler.Result;
@@ -32,6 +33,7 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 	private List<Fund> funds;
 	private List<PaymentType> paymentTypes;
 	private List<Currency> currencies;
+        private List<Gender> genders;
 
 	private static final int FUND_ID_COL = 0;
 	private static final int FUND_NAME_COL = 1;
@@ -39,7 +41,8 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 	private static final int PAYMENT_TYPE_NAME_COL = 3;
 	private static final int CURRENCY_CODE_COL = 4;
 	private static final int CURRENCY_NAME_COL = 5;
-
+	private static final int GENDER_CODE_COL = 6;
+	private static final int GENDER_NAME_COL = 7;
 	public ExtrasSheetPopulator(RestClient client) {
 		this.client = client;
 	}
@@ -81,6 +84,18 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 				json = iterator.next();
 				Currency currency = gson.fromJson(json, Currency.class);
 				currencies.add(currency);
+			}
+                        
+                        genders = new ArrayList<Gender>();
+			content = client.get("codes/4/codevalues");
+			json = new JsonParser().parse(content);
+			array = json.getAsJsonArray();
+			iterator = array.iterator();
+			while (iterator.hasNext()) {
+				json = iterator.next();
+				Gender gender = gson
+						.fromJson(json, Gender.class);
+				genders.add(gender);
 			}
 		} catch (Exception e) {
 			result.addError(e.getMessage());
@@ -139,6 +154,8 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 		worksheet.setColumnWidth(PAYMENT_TYPE_NAME_COL, 7000);
 		worksheet.setColumnWidth(CURRENCY_NAME_COL, 7000);
 		worksheet.setColumnWidth(CURRENCY_CODE_COL, 7000);
+                worksheet.setColumnWidth(GENDER_NAME_COL, 7000);
+		worksheet.setColumnWidth(GENDER_CODE_COL, 7000);
 		Row rowHeader = worksheet.createRow(0);
 		rowHeader.setHeight((short) 500);
 		writeString(FUND_ID_COL, rowHeader, "Fund ID");
@@ -147,6 +164,8 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 		writeString(PAYMENT_TYPE_NAME_COL, rowHeader, "Payment Type Name");
 		writeString(CURRENCY_NAME_COL, rowHeader, "Currency Type ");
 		writeString(CURRENCY_CODE_COL, rowHeader, "Currency Code ");
+                writeString(GENDER_NAME_COL, rowHeader, "Gender Type ");
+		writeString(GENDER_CODE_COL, rowHeader, "Gender Code ");
 	}
 
 	public Integer getFundsSize() {
@@ -156,6 +175,10 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 	public Integer getPaymentTypesSize() {
 		return paymentTypes.size();
 	}
+        
+        public Integer getGendersSize() {
+		return genders.size();
+	}
 
 	public List<Fund> getFunds() {
 		return funds;
@@ -163,6 +186,10 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 
 	public List<PaymentType> getPaymentTypes() {
 		return paymentTypes;
+	}
+        
+        public List<Gender> getGenders() {
+		return genders;
 	}
 
 	public Integer getCurrencysSize() {

@@ -23,7 +23,7 @@ public class CenterDataImportHandlerTest {
 	    
 	    @Test
 	    public void shouldParsecentersAndMeetings() throws IOException {
-	    	InputStream is = this.getClass().getClassLoader().getResourceAsStream("client/centers.xls");
+	    	InputStream is = this.getClass().getClassLoader().getResourceAsStream("client/center.xls");
 	        Workbook book = new HSSFWorkbook(is);
 	        CenterDataImportHandler handler = new CenterDataImportHandler(book, restClient);
 	        Result result = handler.parse();

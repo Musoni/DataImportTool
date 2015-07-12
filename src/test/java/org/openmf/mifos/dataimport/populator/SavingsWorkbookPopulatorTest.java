@@ -38,7 +38,7 @@ public class SavingsWorkbookPopulatorTest {
     	 		"\"firstname\": \"Billy\",\"middlename\": \"T\",\"lastname\": \"Bob\",\"displayName\": \"Billy T Bob\",\"officeId\": 2,\"officeName\": \"Office1\"," +
     	 		"\"staffId\": 2,\"staffName\": \"Dzeko, Edin\"}]}");
 		
-		Mockito.when(restClient.get("groups?limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\": 1, \"name\": \"Group 1\", \"externalId\":" +
+		Mockito.when(restClient.get("groups?paged=true&limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\": 1, \"name\": \"Group 1\", \"externalId\":" +
     			" \"B1561\", \"status\": {\"id\": 300, \"code\": \"clientStatusType.active\", \"value\": \"Active\"},\"active\": true,\"activationDate\":" +
     			" [2013,9,1], \"officeId\": 1, \"officeName\": \"Head Office\", \"staffId\": 1, \"staffName\": \"Chatta, Sahil\", \"hierarchy\": \".1.\"}]}");
 		
@@ -67,8 +67,8 @@ public class SavingsWorkbookPopulatorTest {
 		Result result = savingsWorkbookPopulator.populate(savingsWorkbook);
 		Assert.assertTrue(result.isSuccess());
 		Mockito.verify(restClient, Mockito.atLeastOnce()).get("clients?limit=-1");
-		Mockito.verify(restClient, Mockito.atLeastOnce()).get("groups?limit=-1");
 		Mockito.verify(restClient, Mockito.atLeastOnce()).get("offices?limit=-1");
+                Mockito.verify(restClient, Mockito.atLeastOnce()).get("groups?paged=true&limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("staff?limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("savingsproducts");
     	

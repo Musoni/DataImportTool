@@ -29,7 +29,7 @@ public class GroupSheetPopulatorTest {
     @Test
     public void shouldDownloadAndParseGroups() {
     	
-    	Mockito.when(restClient.get("groups?limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\": 1, \"name\": \"Group 1\", \"externalId\":" +
+    	Mockito.when(restClient.get("groups?paged=true&limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\": 1, \"name\": \"Group 1\", \"externalId\":" +
     			" \"B1561\", \"status\": {\"id\": 300, \"code\": \"clientStatusType.active\", \"value\": \"Active\"},\"active\": true,\"activationDate\":" +
     			" [2013,9,1], \"officeId\": 1, \"officeName\": \"Head Office\", \"staffId\": 1, \"staffName\": \"Chatta, Sahil\", \"hierarchy\": \".1.\"}]}");
     	
@@ -41,7 +41,7 @@ public class GroupSheetPopulatorTest {
     	Result result = populator.downloadAndParse();
     	
     	Assert.assertTrue(result.isSuccess());
-    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("groups?limit=-1");
+    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("groups?paged=true&limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("offices?limit=-1");
     	
     	List<CompactGroup> groups = populator.getGroups();
@@ -59,7 +59,7 @@ public class GroupSheetPopulatorTest {
     @Test
     public void shouldPopulateGroupSheet() {
     	
-    	Mockito.when(restClient.get("groups?limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\": 1, \"name\": \"Group 1\", \"externalId\":" +
+    	Mockito.when(restClient.get("groups?paged=true&limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\": 1, \"name\": \"Group 1\", \"externalId\":" +
     			" \"B1561\", \"status\": {\"id\": 300, \"code\": \"clientStatusType.active\", \"value\": \"Active\"},\"active\": true,\"activationDate\":" +
     			" [2013,9,1], \"officeId\": 1, \"officeName\": \"Head Office\", \"staffId\": 1, \"staffName\": \"Chatta, Sahil\", \"hierarchy\": \".1.\"}]}");
     	
@@ -76,7 +76,7 @@ public class GroupSheetPopulatorTest {
     	Map<String, Integer> groupNameToGroupId = populator.getGroupNameToGroupId();
     	
     	Assert.assertTrue(result.isSuccess());
-    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("groups?limit=-1");
+    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("groups?paged=true&limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("offices?limit=-1");
     	
     	Sheet groupSheet = book.getSheet("Groups");

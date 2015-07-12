@@ -28,7 +28,7 @@ public class WorkbookPopulatorFactory {
             MifosRestClient restClient = new MifosRestClient();  
 		  
 	        if(template.trim().equals("client")) 
-	             return new ClientWorkbookPopulator (parameter, new OfficeSheetPopulator(restClient), new PersonnelSheetPopulator(Boolean.FALSE, restClient));
+	             return new ClientWorkbookPopulator (parameter, new OfficeSheetPopulator(restClient), new PersonnelSheetPopulator(Boolean.FALSE, restClient), new ExtrasSheetPopulator(restClient));
 	        else if(template.trim().equals("groups"))
 	        	 return new GroupWorkbookPopulator(new OfficeSheetPopulator(restClient), new PersonnelSheetPopulator(Boolean.FALSE, restClient), new CenterSheetPopulator(restClient),
 	        			 new ClientSheetPopulator(restClient));

@@ -169,7 +169,7 @@ public abstract class AbstractDataImportHandler implements DataImportHandler {
 
 	protected String getCodeByName(Sheet sheet, String name) {
 		String sheetName = sheet.getSheetName();
-		sheetName.equals("Extras");
+		if(sheetName.equals("Extras"))
 		{
 			for (Row row : sheet) {
 				for (Cell cell : row) {

@@ -31,7 +31,11 @@ public class ClientDataImportHandler extends AbstractDataImportHandler {
     private static final int EXTERNAL_ID_COL = 5;
     private static final int ACTIVATION_DATE_COL = 6;
     private static final int ACTIVE_COL = 7;
-    private static final int STATUS_COL = 8;
+    private static final int MOBILE_NO_COL = 8;
+    private static final int DOB_COL = 9;
+    private static final int GENDER_COL = 10;
+    private static final int STATUS_COL = 11;
+
 
     private List<Client> clients;
     private String clientType;
@@ -82,20 +86,30 @@ public class ClientDataImportHandler extends AbstractDataImportHandler {
         String externalId = readAsString(EXTERNAL_ID_COL, row);
         String activationDate = readAsDate(ACTIVATION_DATE_COL, row);
         String active = readAsBoolean(ACTIVE_COL, row).toString();
+        String dateOfBirth = readAsDate(DOB_COL, row);
+        String mobileNo = readAsBoolean(MOBILE_NO_COL, row).toString();
+        
         if(clientType.equals("Individual")) {
             String firstName = readAsString(FIRST_NAME_COL, row);
             String lastName = readAsString(LAST_NAME_COL, row);
             String middleName = readAsString(MIDDLE_NAME_COL, row);
+            
+            String gender = readAsString(GENDER_COL, row);
+            String genderId = null;
+             if (!gender.equals("")) {
+                genderId = getIdByName(workbook.getSheet("Extras"), gender).toString();
+            }
+            
             if(StringUtils.isBlank(firstName)) {
             	throw new IllegalArgumentException("Name is blank");
             }
-            return new Client(firstName, lastName, middleName, activationDate, active, externalId, officeId, staffId, row.getRowNum());
+            return new Client(firstName, lastName, middleName, activationDate, active, externalId, officeId, staffId, mobileNo, dateOfBirth, genderId, row.getRowNum());
         } else {
             String fullName = readAsString(FULL_NAME_COL, row);
             if(StringUtils.isBlank(fullName)) {
             	throw new IllegalArgumentException("Name is blank");
             }
-            return new CorporateClient(fullName, activationDate, active, externalId, officeId, staffId, row.getRowNum());
+            return new CorporateClient(fullName, activationDate, active, externalId, officeId, staffId, mobileNo, row.getRowNum());
         }
 	}
 

@@ -58,10 +58,23 @@ public class LoanRepaymentWorkbookPopulatorTest {
 		Mockito.when(restClient.get("offices?limit=-1")).thenReturn("[{\"id\":1,\"name\":\"Head Office\",\"nameDecorated\":\"Head Office\",\"externalId\": \"1\"," +
         		"\"openingDate\":[2009,1,1],\"hierarchy\": \".\"},{\"id\": 2,\"name\": \"Office1\",\"nameDecorated\": \"....Office1\",\"openingDate\":[2013,4,1]," +
         		"\"hierarchy\": \".2.\",\"parentId\": 1,\"parentName\": \"Head Office\"}]");
-		
 		Mockito.when(restClient.get("funds")).thenReturn("[{\"id\": 1,\"name\": \"Fund1\"}]");
         Mockito.when(restClient.get("codes/12/codevalues")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
-    	
+
+        
+        Mockito.when(restClient.get("codes/4/codevalues")).thenReturn("[{\"id\": 1,\"name\": \"Male\"}]");
+        Mockito.when(restClient.get("currencies")).thenReturn("{\n" +
+"    \"selectedCurrencyOptions\": [\n" +
+"        {\n" +
+"            \"code\": \"KES\",\n" +
+"            \"name\": \"Kenyan Shilling\",\n" +
+"            \"decimalPlaces\": 0,\n" +
+"            \"displaySymbol\": \"KSh\",\n" +
+"            \"nameCode\": \"currency.KES\",\n" +
+"            \"displayLabel\": \"Kenyan Shilling (KSh)\"\n" +
+"        }\n" +
+"    ]}");
+        
     	LoanRepaymentWorkbookPopulator loanRepaymentWorkbookPopulator = new LoanRepaymentWorkbookPopulator(restClient,
     			new OfficeSheetPopulator(restClient), new ClientSheetPopulator(restClient), new ExtrasSheetPopulator(restClient));
     	loanRepaymentWorkbookPopulator.downloadAndParse();
@@ -69,11 +82,15 @@ public class LoanRepaymentWorkbookPopulatorTest {
     	Workbook loanRepaymentWorkbook = new HSSFWorkbook();
     	Result result = loanRepaymentWorkbookPopulator.populate(loanRepaymentWorkbook);
     	Assert.assertTrue(result.isSuccess());
+        Mockito.verify(restClient, Mockito.atLeastOnce()).get("offices?limit=-1");
+        Mockito.verify(restClient, Mockito.atLeastOnce()).get("clients?limit=-1");
+        Mockito.verify(restClient, Mockito.atLeastOnce()).get("funds");
+        Mockito.verify(restClient, Mockito.atLeastOnce()).get("codes/12/codevalues");
+        Mockito.verify(restClient, Mockito.atLeastOnce()).get("currencies");
+        Mockito.verify(restClient, Mockito.atLeastOnce()).get("codes/4/codevalues");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("loans?limit=-1");
-    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("clients?limit=-1");
-    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("offices?limit=-1");
-    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("funds");
-    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("codes/12/codevalues");
+ 
+
     	
     	Sheet loanRepaymentSheet = loanRepaymentWorkbook.getSheet("LoanRepayment");
     	Row row = loanRepaymentSheet.getRow(0);

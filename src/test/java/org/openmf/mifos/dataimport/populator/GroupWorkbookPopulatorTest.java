@@ -34,8 +34,8 @@ public class GroupWorkbookPopulatorTest {
     	Mockito.when(restClient.get("staff?limit=-1")).thenReturn("[{\"id\": 1, \"firstname\": \"Sahil\", \"lastname\": \"Chatta\", \"displayName\": \"Chatta, Sahil\"," +
         		" \"officeId\": 1,\"officeName\": \"Head Office\", \"isLoanOfficer\": true },{\"id\": 2, \"firstname\": \"Edin\", \"lastname\": \"Dzeko\",\"displayName\":" +
         		" \"Dzeko, Edin\",\"officeId\": 2,\"officeName\": \"Office1\",\"isLoanOfficer\": true}]");
-    	Mockito.when(restClient.get("center?limit=-1")).thenReturn("[{\"id\":1,\"centername\":\"Center1\"+"
-    			+ " \"officeId\": 1,\"officeName\": \"Head Office\", \"isActive\": true }] ");
+    	Mockito.when(restClient.get("centers?paged=true&limit=-1")).thenReturn("{\"totalFilteredRecords\": 1,\"pageItems\": [{\"id\":1,\"name\":\"Center1\"," +
+    			" \"officeId\": 1,\"officeName\": \"Head Office\", \"active\": \"true\", \"activationDate\":" + " [2013,9,1] }]}");
     	Mockito.when(restClient.get("clients?limit=-1")).thenReturn("{\"totalFilteredRecords\": 2,\"pageItems\": [{\"id\": 1,\"accountNo\": \"000000001\"," +
     	 		"\"status\": {\"id\": 300,\"code\": \"clientStatusType.active\",\"value\": \"Active\"},\"active\": true,\"activationDate\": [2013,7,1]," +
     	 		"\"firstname\": \"Arsene\",\"middlename\": \"K\",\"lastname\": \"Wenger\",\"displayName\": \"Arsene K Wenger\",\"officeId\": 1," +
@@ -53,7 +53,7 @@ public class GroupWorkbookPopulatorTest {
     	Assert.assertTrue(result.isSuccess());
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("offices?limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("staff?limit=-1");
-    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("center?limit=-1");
+    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("centers?paged=true&limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("clients?limit=-1");
     	
     	Sheet groupSheet = groupWorkbook.getSheet("Groups");
@@ -63,7 +63,7 @@ public class GroupWorkbookPopulatorTest {
     	Assert.assertEquals("Group Name*", row.getCell(0).getStringCellValue());
     	Assert.assertEquals("Office Name*", row.getCell(1).getStringCellValue());
     	Assert.assertEquals("Staff Name*", row.getCell(2).getStringCellValue());
-    	Assert.assertEquals("Center Name*", row.getCell(3).getStringCellValue());
+    	Assert.assertEquals("Center Name", row.getCell(3).getStringCellValue());
     	Assert.assertEquals("External ID", row.getCell(4).getStringCellValue());
     	Assert.assertEquals("Active*", row.getCell(5).getStringCellValue());
     	Assert.assertEquals("Activation Date*", row.getCell(6).getStringCellValue());

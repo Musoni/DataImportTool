@@ -32,6 +32,19 @@ public class ExtrasSheetPopulatorTest {
     	
         Mockito.when(restClient.get("funds")).thenReturn("[{\"id\": 1,\"name\": \"Fund1\"}]");
         Mockito.when(restClient.get("codes/12/codevalues")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
+        Mockito.when(restClient.get("currencies")).thenReturn("{\n" +
+"    \"selectedCurrencyOptions\": [\n" +
+"        {\n" +
+"            \"code\": \"KES\",\n" +
+"            \"name\": \"Kenyan Shilling\",\n" +
+"            \"decimalPlaces\": 0,\n" +
+"            \"displaySymbol\": \"KSh\",\n" +
+"            \"nameCode\": \"currency.KES\",\n" +
+"            \"displayLabel\": \"Kenyan Shilling (KSh)\"\n" +
+"        }\n" +
+"    ]}");
+        
+        Mockito.when(restClient.get("codes/4/codevalues")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
 
     	populator = new ExtrasSheetPopulator(restClient);
     	Result result = populator.downloadAndParse();
@@ -56,6 +69,19 @@ public class ExtrasSheetPopulatorTest {
     	
     	Mockito.when(restClient.get("funds")).thenReturn("[{\"id\": 1,\"name\": \"Fund1\"}]");
         Mockito.when(restClient.get("codes/12/codevalues")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
+        Mockito.when(restClient.get("currencies")).thenReturn("{\n" +
+       "    \"selectedCurrencyOptions\": [\n" +
+       "        {\n" +
+       "            \"code\": \"KES\",\n" +
+       "            \"name\": \"Kenyan Shilling\",\n" +
+       "            \"decimalPlaces\": 0,\n" +
+       "            \"displaySymbol\": \"KSh\",\n" +
+       "            \"nameCode\": \"currency.KES\",\n" +
+       "            \"displayLabel\": \"Kenyan Shilling (KSh)\"\n" +
+       "        }\n" +
+       "    ]}");
+        
+        Mockito.when(restClient.get("codes/4/codevalues")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
 
     	populator = new ExtrasSheetPopulator(restClient);
     	populator.downloadAndParse();

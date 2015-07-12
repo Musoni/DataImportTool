@@ -16,6 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.openmf.mifos.dataimport.handler.Result;
 import org.openmf.mifos.dataimport.http.RestClient;
 import org.openmf.mifos.dataimport.populator.client.ClientWorkbookPopulator;
+import org.openmf.mifos.dataimport.populator.ExtrasSheetPopulator;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClientWorkbookPopulatorTest {
@@ -35,12 +36,28 @@ public class ClientWorkbookPopulatorTest {
     	Mockito.when(restClient.get("staff?limit=-1")).thenReturn("[{\"id\": 1, \"firstname\": \"Sahil\", \"lastname\": \"Chatta\", \"displayName\": \"Chatta, Sahil\"," +
         		" \"officeId\": 1,\"officeName\": \"Head Office\", \"isLoanOfficer\": true },{\"id\": 2, \"firstname\": \"Edin\", \"lastname\": \"Dzeko\",\"displayName\":" +
         		" \"Dzeko, Edin\",\"officeId\": 2,\"officeName\": \"Office1\",\"isLoanOfficer\": true}]");
-    	
+        Mockito.when(restClient.get("codes/4/codevalues")).thenReturn("[{\"id\": 1,\"name\": \"Male\"}]");
+    	        Mockito.when(restClient.get("funds")).thenReturn("[{\"id\": 1,\"name\": \"Fund1\"}]");
+        Mockito.when(restClient.get("codes/12/codevalues")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
+        Mockito.when(restClient.get("currencies")).thenReturn("{\n" +
+"    \"selectedCurrencyOptions\": [\n" +
+"        {\n" +
+"            \"code\": \"KES\",\n" +
+"            \"name\": \"Kenyan Shilling\",\n" +
+"            \"decimalPlaces\": 0,\n" +
+"            \"displaySymbol\": \"KSh\",\n" +
+"            \"nameCode\": \"currency.KES\",\n" +
+"            \"displayLabel\": \"Kenyan Shilling (KSh)\"\n" +
+"        }\n" +
+"    ]}");
+        
+     
+        
     	Boolean onlyLoanOfficers = Boolean.FALSE;
     	ClientWorkbookPopulator individualClientWorkbookPopulator = new ClientWorkbookPopulator("individual",
-    			new OfficeSheetPopulator(restClient), new PersonnelSheetPopulator(onlyLoanOfficers, restClient));
+    			new OfficeSheetPopulator(restClient), new PersonnelSheetPopulator(onlyLoanOfficers, restClient), new ExtrasSheetPopulator(restClient));
     	ClientWorkbookPopulator corporateClientWorkbookPopulator = new ClientWorkbookPopulator("corporate",
-    			new OfficeSheetPopulator(restClient), new PersonnelSheetPopulator(onlyLoanOfficers, restClient));
+    			new OfficeSheetPopulator(restClient), new PersonnelSheetPopulator(onlyLoanOfficers, restClient), new ExtrasSheetPopulator(restClient));
     	individualClientWorkbookPopulator.downloadAndParse();
     	corporateClientWorkbookPopulator.downloadAndParse();
     	

@@ -54,7 +54,7 @@ public class LoanImportHandlerTest {
         Assert.assertEquals("2", loan.getRepaymentFrequencyType());
         Assert.assertEquals("20", loan.getLoanTermFrequency());
         Assert.assertEquals("2", loan.getLoanTermFrequencyType());
-        Assert.assertEquals("7", loan.getInterestRatePerPeriod());
+        Assert.assertEquals(new Double("7.00"), loan.getInterestRatePerPeriod());
         Assert.assertEquals("1", loan.getAmortizationType());
         Assert.assertEquals("0", loan.getInterestType());
         Assert.assertEquals("1", loan.getInterestCalculationPeriodType());
