@@ -8,8 +8,10 @@ import com.google.gson.JsonParser;
 import org.openmf.mifos.dataimport.populator.client.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.poi.hssf.usermodel.HSSFDataValidationHelper;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -38,7 +40,11 @@ public class DatatableWorkbookPopulator extends AbstractWorkbookPopulator {
     private String content;
     private String datatable;
     private List<Column> columns;
-
+     
+    private static final Set<String> ignoreColumns = new HashSet<String>(Arrays.asList(
+     new String[] {"id","submittedon_date","submittedon_userid"}
+    ));
+    
     public DatatableWorkbookPopulator(String datatable, RestClient client) {
         this.datatable = datatable;
         this.client = client;
@@ -84,12 +90,13 @@ public class DatatableWorkbookPopulator extends AbstractWorkbookPopulator {
 
         int columnIndex = 0;
         for (Column column : columns) {     
-            
-                logger.debug("Column Name: " + column.getColumnName() + " - ID: " + columnIndex);
                 
+            if(!ignoreColumns.contains(column.getColumnName()))
+            {
                 worksheet.setColumnWidth(columnIndex, 4000);
                 writeString(columnIndex, rowHeader, column.getColumnName());
                 columnIndex++;
+            }
         }
     }
 
