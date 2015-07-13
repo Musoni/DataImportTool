@@ -26,7 +26,7 @@ public class Group {
 	        this.externalId = externalId;
 	        this.officeId = officeId;
 	        this.staffId = staffId;
-	        this.centerId= centerId;
+	        this.centerId= (centerId.equals("0") ? null : centerId) ;
 	        this.rowIndex = rowIndex;
 	        this.status = status;
 	        this.dateFormat = "dd MMMM yyyy";
