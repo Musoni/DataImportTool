@@ -139,6 +139,17 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 						.replaceAll("[ )(]", "_"));
 				writeString(CURRENCY_CODE_COL, row, currencie.getCode());
 			}
+                        int genderRowIndex = 1;
+			for (Gender gender : genders) {
+				Row row;
+				if (genderRowIndex < currencyCodeRowIndex)
+					row = extrasSheet.getRow(genderRowIndex++);
+				else
+					row = extrasSheet.createRow(genderRowIndex++);
+				writeInt(GENDER_CODE_COL, row, gender.getId());
+				writeString(GENDER_NAME_COL, row, gender.getName()
+						.trim().replaceAll("[ )(]", "_"));
+			}
 			extrasSheet.protectSheet("");
 		} catch (Exception e) {
 			result.addError(e.getMessage());

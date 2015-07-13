@@ -126,12 +126,10 @@ public class ClientDataImportHandler extends AbstractDataImportHandler {
                 
                 Cell statusCell = clientSheet.getRow(client.getRowIndex()).createCell(STATUS_COL);
                 statusCell.setCellValue("Imported");
-                statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.LIGHT_GREEN));
             } catch (RuntimeException e) {
             	String message = parseStatus(e.getMessage());
             	Cell statusCell = clientSheet.getRow(client.getRowIndex()).createCell(STATUS_COL);
             	statusCell.setCellValue(message);
-                statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.RED));
                 result.addError("Row = " + client.getRowIndex() + " ," + message);
             }
         }

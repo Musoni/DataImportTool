@@ -7,6 +7,7 @@ import org.openmf.mifos.dataimport.populator.accounting.AddJournalEntriesWorkboo
 import org.openmf.mifos.dataimport.populator.client.CenterWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.client.ClientWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.client.GroupWorkbookPopulator;
+import org.openmf.mifos.dataimport.populator.client.ClientIdentifierWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.loan.AddGuarantorWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.loan.LoanProductSheetPopulator;
 import org.openmf.mifos.dataimport.populator.loan.LoanRepaymentWorkbookPopulator;
@@ -56,6 +57,8 @@ public class WorkbookPopulatorFactory {
 	        	 return new ClosingOfSavingsAccountsWorkbookPopulator(restClient, new OfficeSheetPopulator(restClient), new ClientSheetPopulator(restClient));
 	        else if(template.trim().equals("journalentries"))
 	        	return new AddJournalEntriesWorkbookPopulator(new OfficeSheetPopulator(restClient), new GlAccountSheetPopulator(restClient),new ExtrasSheetPopulator(restClient));
+                else if(template.trim().equals("clientIdentifier"))
+	        	return new ClientIdentifierWorkbookPopulator(new OfficeSheetPopulator(restClient), new ClientSheetPopulator(restClient),new IdentifierTypePopulator(restClient));
 	        else if(template.trim().equals("guarantor"))
 	        	
 	        return new AddGuarantorWorkbookPopulator(restClient, new OfficeSheetPopulator(restClient), new ClientSheetPopulator(restClient));

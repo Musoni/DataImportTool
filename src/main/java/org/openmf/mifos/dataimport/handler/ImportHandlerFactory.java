@@ -7,6 +7,7 @@ import org.openmf.mifos.dataimport.handler.accounting.AddJournalEntriesHandler;
 import org.openmf.mifos.dataimport.handler.client.CenterDataImportHandler;
 import org.openmf.mifos.dataimport.handler.client.ClientDataImportHandler;
 import org.openmf.mifos.dataimport.handler.client.GroupDataImportHandler;
+import org.openmf.mifos.dataimport.handler.client.ClientIdentifierDataImportHandler;
 import org.openmf.mifos.dataimport.handler.loan.AddGuarantorDataImportHandler;
 import org.openmf.mifos.dataimport.handler.loan.LoanDataImportHandler;
 import org.openmf.mifos.dataimport.handler.loan.LoanRepaymentDataImportHandler;
@@ -49,6 +50,8 @@ public class ImportHandlerFactory {
         	return new AddJournalEntriesHandler(workbook, new MifosRestClient());
         }else if(workbook.getSheetIndex("guarantor") == 0) {
         	return new AddGuarantorDataImportHandler(workbook, new MifosRestClient());
+        }else if(workbook.getSheetIndex("ClientIdentifiers") == 0) {
+        	return new ClientIdentifierDataImportHandler(workbook, new MifosRestClient());
         }
         
         
