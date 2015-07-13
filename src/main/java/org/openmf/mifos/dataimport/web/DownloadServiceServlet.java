@@ -29,6 +29,8 @@ public class DownloadServiceServlet extends HttpServlet {
 			String parameter = null;
 			if(request.getParameter("template").equals("client"))
 			    parameter = request.getParameter("clientType");
+                        if(request.getParameter("template").equals("datatable"))
+			    parameter = request.getParameter("datatableName");
 			WorkbookPopulator populator = WorkbookPopulatorFactory.createWorkbookPopulator(parameter, fileName);
 			Workbook workbook = new HSSFWorkbook();
 	        Result result = downloadAndPopulate(workbook, populator);
