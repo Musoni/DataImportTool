@@ -46,6 +46,9 @@ public class DatatableWorkbookPopulator extends AbstractWorkbookPopulator {
     ));
     
     public DatatableWorkbookPopulator(String datatable, RestClient client) {
+        
+        // Probably need a few populators here to link up datatables with their main entities, for instance client or loan.
+        
         this.datatable = datatable;
         this.client = client;
     }
