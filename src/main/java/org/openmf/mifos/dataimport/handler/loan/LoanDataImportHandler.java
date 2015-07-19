@@ -163,7 +163,7 @@ public class LoanDataImportHandler extends AbstractDataImportHandler {
         String arrearsTolerance = readAsString(ARREARS_TOLERANCE_COL, row);
         String repaymentStrategy = readAsString(REPAYMENT_STRATEGY_COL, row);
         String repaymentStrategyId = "";
-        if (repaymentStrategy.equalsIgnoreCase("Mifos style"))
+        if (repaymentStrategy.equalsIgnoreCase("Penalties Fees Interest Principal Order"))
             repaymentStrategyId = "1";
         else if (repaymentStrategy.equalsIgnoreCase("Heavensfamily"))
             repaymentStrategyId = "2";
