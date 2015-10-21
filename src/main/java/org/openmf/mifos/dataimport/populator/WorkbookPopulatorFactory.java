@@ -9,6 +9,11 @@ import org.openmf.mifos.dataimport.populator.client.ClientWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.client.GroupWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.client.ClientIdentifierWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.loan.*;
+import org.openmf.mifos.dataimport.populator.datatable.DatatableWorkbookPopulator;
+import org.openmf.mifos.dataimport.populator.loan.AddGuarantorWorkbookPopulator;
+import org.openmf.mifos.dataimport.populator.loan.LoanProductSheetPopulator;
+import org.openmf.mifos.dataimport.populator.loan.LoanRepaymentWorkbookPopulator;
+import org.openmf.mifos.dataimport.populator.loan.LoanWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.savings.ClosingOfSavingsAccountsWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.savings.FixedDepositProductSheetPopulator;
 import org.openmf.mifos.dataimport.populator.savings.FixedDepositWorkbookPopulator;
@@ -58,9 +63,10 @@ public class WorkbookPopulatorFactory {
 	        	return new AddJournalEntriesWorkbookPopulator(new OfficeSheetPopulator(restClient), new GlAccountSheetPopulator(restClient),new ExtrasSheetPopulator(restClient));
                 else if(template.trim().equals("clientIdentifier"))
 	        	return new ClientIdentifierWorkbookPopulator(new OfficeSheetPopulator(restClient), new ClientSheetPopulator(restClient),new IdentifierTypePopulator(restClient));
+                else if(template.trim().equals("datatable"))
+	        	return new DatatableWorkbookPopulator(parameter, restClient);
 	        else if(template.trim().equals("guarantor"))
-	        	
-	        return new AddGuarantorWorkbookPopulator(restClient, new OfficeSheetPopulator(restClient), new ClientSheetPopulator(restClient));
+                        return new AddGuarantorWorkbookPopulator(restClient, new OfficeSheetPopulator(restClient), new ClientSheetPopulator(restClient));
 	        throw new IllegalArgumentException("Can't find populator.");
 	    }
 }
