@@ -5,7 +5,7 @@ buildscript {
 
     dependencies {
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.5.0',
-                  'org.gradle.api.plugins:gradle-tomcat-plugin:0.9.8'
+                  'org.gradle.api.plugins:gradle-tomcat-plugin:0.9.9'
     }
 }
 
@@ -13,8 +13,8 @@ apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'tomcat'
-apply plugin: 'pmd'
-apply plugin: 'findbugs'
+//apply plugin: 'pmd'
+//apply plugin: 'findbugs'
 
 sourceCompatibility = JavaVersion.VERSION_1_6
 targetCompatibility = JavaVersion.VERSION_1_6
@@ -31,7 +31,7 @@ configurations {
     runtime
 }
 
-compileJava.dependsOn(pmdMain)
+//compileJava.dependsOn(pmdMain)
 
 dependencies {
     def tomcatVersion = '7.0.42'

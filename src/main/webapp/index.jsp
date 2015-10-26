@@ -42,30 +42,33 @@ fieldset {border: 0;margin: 0 0 15px 0;}
 		     <input type="hidden" name="template" value="client" > 
 		     <fieldset>Select Client Type : &nbsp;&nbsp;
 		     <input type="radio" name="clientType" value="individual"> Individual &nbsp;&nbsp;
-		     <input type="radio" name="clientType" value="corporate"> Corporate </fieldset>
+             <input type="hidden" name="tenantIdentifier" value="<%= request.getParameter("tenantIdentifier") %>" >
 		     <input type="submit" value="Download" class="btn" />
 		    </form>
-			<form method="post" action="import" enctype="multipart/form-data">
+			<form method="post" action="import?tenantIdentifier=<%= request.getParameter("tenantIdentifier") %>" enctype="multipart/form-data">
 		            <input type="file" name="file"/>
 		            <input type="submit" class="btn"/>
 			</form>
 		</div>
 	</div>
 	
-	<div class="step clearfix">
-		<div class="stepCount">Step 3:</div> 
-		<div class="stepContent">
-			<p>Download template to help facilitate Centers Import.</p>
-		    <form method="get" action="download" >
-		     <input type="hidden" name="template" value="centers" > 
-		     <input type="submit" value="Download" class="btn"  />
-		    </form>
-			<form method="post" action="import" enctype="multipart/form-data">
-		            <input type="file" name="file"/>
-		            <input type="submit" class="btn"/>
-			</form>
-		</div>
-	</div>
+            <div class="step clearfix">
+        <div class="stepCount">Step 3:</div> 
+        <div class="stepContent">
+            <p>Download template to add customer identifiers. </p>
+            <form method="get" action="download" >
+             <input type="hidden" name="template" value="clientIdentifier" > 
+             <input type="hidden" name="tenantIdentifier" value="<%= request.getParameter("tenantIdentifier") %>" >
+             <input type="submit" value="Download" class="btn"  />
+            </form>
+            <form method="post" action="import?tenantIdentifier=<%= request.getParameter("tenantIdentifier") %>" enctype="multipart/form-data">
+                    <input type="file" name="file"/>
+                    <input type="submit" class="btn"/>
+            </form>
+        </div>
+        
+        
+    </div>
 	
 	<div class="step clearfix">
 		<div class="stepCount">Step 4:</div> 
@@ -73,9 +76,10 @@ fieldset {border: 0;margin: 0 0 15px 0;}
 			<p>Download template to help facilitate Groups Import.</p>
 		    <form method="get" action="download" >
 		     <input type="hidden" name="template" value="groups" > 
-		     <input type="submit" value="Download" class="btn"  />
+		     <input type="hidden" name="tenantIdentifier" value="<%= request.getParameter("tenantIdentifier") %>" >
+             <input type="submit" value="Download" class="btn"  />
 		    </form>
-			<form method="post" action="import" enctype="multipart/form-data">
+			<form method="post" action="import?tenantIdentifier=<%= request.getParameter("tenantIdentifier") %>" enctype="multipart/form-data">
 		            <input type="file" name="file"/>
 		            <input type="submit" class="btn"/>
 			</form>
@@ -99,9 +103,10 @@ fieldset {border: 0;margin: 0 0 15px 0;}
 		    <p>For quick import of outstanding balances of each loan, use the entire template <b>OR</b> leave the last 3 columns empty and proceed to Step 5 for importing complete repayment history for each loan.</p>
 			<form method="get" action="download" >
 		     <input type="hidden" name="template" value="loan" > 
-		     <input type="submit" value="Download" class="btn"  />
+		     <input type="hidden" name="tenantIdentifier" value="<%= request.getParameter("tenantIdentifier") %>" >
+             <input type="submit" value="Download" class="btn"  />
 		    </form>
-		    <form method="post" action="import" enctype="multipart/form-data">
+		    <form method="post" action="import?tenantIdentifier=<%= request.getParameter("tenantIdentifier") %>" enctype="multipart/form-data">
 		            <input type="file" name="file"/>
 		            <input type="submit" class="btn"/>
 			</form>
@@ -109,19 +114,36 @@ fieldset {border: 0;margin: 0 0 15px 0;}
 	</div>
 	
 	<div class="step clearfix">
-	    <div class="stepCount">Step 7:<br/><span>(Optional)</span></div>
+	    <div class="stepCount">Step 7a:<br/><span>(Optional)</span></div>
 	    <div class="stepContent">
-	    	<p>Download template to help facilitate import of Loan Repayment History.</p>
+	    	<p>Download template to help facilitate import of Individual/JLG Loan Repayment History.</p>
 		    <form method="get" action="download" >
 		     <input type="hidden" name="template" value="loanRepaymentHistory" > 
-		     <input type="submit" value="Download" class="btn"  />
+		     <input type="hidden" name="tenantIdentifier" value="<%= request.getParameter("tenantIdentifier") %>" >
+             <input type="submit" value="Download" class="btn"  />
 		    </form>
-		    <form method="post" action="import" enctype="multipart/form-data">
+		    <form method="post" action="import?tenantIdentifier=<%= request.getParameter("tenantIdentifier") %>" enctype="multipart/form-data">
 		            <input type="file" name="file"/>
 		            <input type="submit" class="btn"/>
 			</form>
 		</div>
 	</div>
+
+	  <div class="step clearfix">
+		  <div class="stepCount">Step 7b:<br/><span>(Optional)</span></div>
+		  <div class="stepContent">
+			  <p>Download template to help facilitate import of Group Loan Repayment History.</p>
+			  <form method="get" action="download" >
+				  <input type="hidden" name="template" value="groupLoanRepaymentHistory" >
+				  <input type="hidden" name="tenantIdentifier" value="<%= request.getParameter("tenantIdentifier") %>" >
+                  <input type="submit" value="Download" class="btn"  />
+			  </form>
+			  <form method="post" action="import?tenantIdentifier=<%= request.getParameter("tenantIdentifier") %>" enctype="multipart/form-data">
+				  <input type="file" name="file"/>
+				  <input type="submit" class="btn"/>
+			  </form>
+		  </div>
+	  </div>
 	
 	<div class="step clearfix">
 		<div class="stepCount">Step 8:</div> 
@@ -138,9 +160,10 @@ fieldset {border: 0;margin: 0 0 15px 0;}
 		     <b>OR</b> proceed to Step 8 for importing complete transaction history for each savings account.</p>
 			<form method="get" action="download" >
 		     <input type="hidden" name="template" value="savings" > 
-		     <input type="submit" value="Download" class="btn"  />
+		     <input type="hidden" name="tenantIdentifier" value="<%= request.getParameter("tenantIdentifier") %>" >
+             <input type="submit" value="Download" class="btn"  />
 		    </form>
-		    <form method="post" action="import" enctype="multipart/form-data">
+		    <form method="post" action="import?tenantIdentifier=<%= request.getParameter("tenantIdentifier") %>" enctype="multipart/form-data">
 		            <input type="file" name="file"/>
 		            <input type="submit" class="btn"/>
 			</form>
@@ -153,9 +176,10 @@ fieldset {border: 0;margin: 0 0 15px 0;}
 		    <p>Download template to help facilitate import of Savings Transaction History.</p>
 		    <form method="get" action="download" >
 		     <input type="hidden" name="template" value="savingsTransactionHistory" > 
-		     <input type="submit" value="Download" class="btn"  />
+		     <input type="hidden" name="tenantIdentifier" value="<%= request.getParameter("tenantIdentifier") %>" >
+             <input type="submit" value="Download" class="btn"  />
 		    </form>
-		    <form method="post" action="import" enctype="multipart/form-data">
+		    <form method="post" action="import?tenantIdentifier=<%= request.getParameter("tenantIdentifier") %>" enctype="multipart/form-data">
 		            <input type="file" name="file"/>
 		            <input type="submit" class="btn"/>
 			</form>
@@ -165,119 +189,32 @@ fieldset {border: 0;margin: 0 0 15px 0;}
 	<div class="step clearfix">
 		<div class="stepCount">Step 11:</div> 
 		<div class="stepContent">
-			<p>Enter your Fixed Deposit Product configuration (Administration -&gt; Organisation) through the UI.</p>
-		</div>
-	</div>
-	
-	<div class="step clearfix">
-		<div class="stepCount">Step 12:</div> 
-		<div class="stepContent">
-			<p>Download template to help facilitate Fixed Deposit Import. </p>
-		    <form method="get" action="download" >
-		     <input type="hidden" name="template" value="fixedDeposit" > 
-		     <input type="submit" value="Download" class="btn"  />
-		    </form>
-		    <form method="post" action="import" enctype="multipart/form-data">
-		            <input type="file" name="file"/>
-		            <input type="submit" class="btn"/>
-			</form>
-		</div>
-	</div>
-	
-		<div class="step clearfix">
-		<div class="stepCount">Step 13:</div> 
-		<div class="stepContent">
-			<p>Enter your Recurring Deposit Product configuration (Administration -&gt; Organisation) through the UI.</p>
-		</div>
-	</div>
-	
-	<div class="step clearfix">
-		<div class="stepCount">Step 14:</div> 
-		<div class="stepContent">
-			<p>Download template to help facilitate Recurring Deposit Import. </p>
-		    <form method="get" action="download" >
-		     <input type="hidden" name="template" value="recurringDeposit" > 
-		     <input type="submit" value="Download" class="btn"  />
-		    </form>
-		    <form method="post" action="import" enctype="multipart/form-data">
-		            <input type="file" name="file"/>
-		            <input type="submit" class="btn"/>
-			</form>
-		</div>
-	</div>
-	
-	<div class="step clearfix">
-	    <div class="stepCount">Step 15:<br/><span>(Optional)</span></div>
-	    <div class="stepContent">
-		    <p>Download template to help facilitate import of Recurring Deposit Account Transaction  History.</p>
-		    <form method="get" action="download" >
-		     <input type="hidden" name="template" value="recurringDepositHistory" > 
-		     <input type="submit" value="Download" class="btn"  />
-		    </form>
-		    <form method="post" action="import" enctype="multipart/form-data">
-		            <input type="file" name="file"/>
-		            <input type="submit" class="btn"/>
-			</form>
-		</div>
-	</div>
-	<div class="step clearfix">
-	    <div class="stepCount">Step 16:<br/><span>(Optional)</span></div>
-	    <div class="stepContent">
-		    <p>Download template to help facilitate import of Closing of savings account.</p>
-		    <form method="get" action="download" >
-		     <input type="hidden" name="template" value="closingOfSavingsAccounts" > 
-		     <input type="submit" value="Download" class="btn"  />
-		    </form>
-		    <form method="post" action="import" enctype="multipart/form-data">
-		            <input type="file" name="file"/>
-		            <input type="submit" class="btn"/>
-			</form>
-		</div>
-	</div>
-	<div class="step clearfix">
-		<div class="stepCount">Step 17:</div> 
-		<div class="stepContent">
 			<p>Download template to help Add Journal Entries. </p>
 		    <form method="get" action="download" >
 		     <input type="hidden" name="template" value="journalentries" > 
-		     <input type="submit" value="Download" class="btn"  />
+		     <input type="hidden" name="tenantIdentifier" value="<%= request.getParameter("tenantIdentifier") %>" >
+             <input type="submit" value="Download" class="btn"  />
 		    </form>
-		    <form method="post" action="import" enctype="multipart/form-data">
+		    <form method="post" action="import?tenantIdentifier=<%= request.getParameter("tenantIdentifier") %>" enctype="multipart/form-data">
 		            <input type="file" name="file"/>
 		            <input type="submit" class="btn"/>
 			</form>
 		</div>
 		</div>
 		<div class="step clearfix">
-		<div class="stepCount">Step :18</div> 
+		<div class="stepCount">Step :12</div> 
 		<div class="stepContent">
 			<p>Download template to help Add Guarantor. </p>
 		    <form method="get" action="download" >
 		     <input type="hidden" name="template" value="guarantor" > 
-		     <input type="submit" value="Download" class="btn"  />
+		     <input type="hidden" name="tenantIdentifier" value="<%= request.getParameter("tenantIdentifier") %>" >
+             <input type="submit" value="Download" class="btn"  />
 		    </form>
-		    <form method="post" action="import" enctype="multipart/form-data">
+		    <form method="post" action="import?tenantIdentifier=<%= request.getParameter("tenantIdentifier") %>" enctype="multipart/form-data">
 		            <input type="file" name="file"/>
 		            <input type="submit" class="btn"/>
 			</form>
 		</div>
-		
-		
-	</div>
-      		<div class="step clearfix">
-		<div class="stepCount">Step 19:</div> 
-		<div class="stepContent">
-			<p>Download template to add customer identifiers. </p>
-		    <form method="get" action="download" >
-		     <input type="hidden" name="template" value="clientIdentifier" > 
-		     <input type="submit" value="Download" class="btn"  />
-		    </form>
-		    <form method="post" action="import" enctype="multipart/form-data">
-		            <input type="file" name="file"/>
-		            <input type="submit" class="btn"/>
-			</form>
-		</div>
-		
 		
 	</div>
       <div class="step clearfix">

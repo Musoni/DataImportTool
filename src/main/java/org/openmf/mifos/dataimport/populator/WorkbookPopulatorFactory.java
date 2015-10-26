@@ -8,6 +8,7 @@ import org.openmf.mifos.dataimport.populator.client.CenterWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.client.ClientWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.client.GroupWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.client.ClientIdentifierWorkbookPopulator;
+import org.openmf.mifos.dataimport.populator.loan.*;
 import org.openmf.mifos.dataimport.populator.datatable.DatatableWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.loan.AddGuarantorWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.loan.LoanProductSheetPopulator;
@@ -41,6 +42,8 @@ public class WorkbookPopulatorFactory {
 	        			 new PersonnelSheetPopulator(Boolean.TRUE, restClient), new LoanProductSheetPopulator(restClient), new ExtrasSheetPopulator(restClient));
 	        else if(template.trim().equals("loanRepaymentHistory"))
 	        	 return new LoanRepaymentWorkbookPopulator(restClient, new OfficeSheetPopulator(restClient), new ClientSheetPopulator(restClient), new ExtrasSheetPopulator(restClient));
+			else if(template.trim().equals("groupLoanRepaymentHistory"))
+				return new GroupLoanRepaymentWorkbookPopulator(restClient, new OfficeSheetPopulator(restClient), new GroupSheetPopulator(restClient), new ExtrasSheetPopulator(restClient));
 	        else if(template.trim().equals("savings"))
 	        	 return new SavingsWorkbookPopulator(new OfficeSheetPopulator(restClient), new ClientSheetPopulator(restClient), new GroupSheetPopulator(restClient),
 	        			 new PersonnelSheetPopulator(Boolean.TRUE, restClient), new SavingsProductSheetPopulator(restClient));
