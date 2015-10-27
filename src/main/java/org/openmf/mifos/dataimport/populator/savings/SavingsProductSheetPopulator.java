@@ -56,7 +56,7 @@ private static final Logger logger = LoggerFactory.getLogger(SavingsProductSheet
     public Result downloadAndParse() {
     	Result result = new Result();
         try {
-        	client.createAuthToken();
+        	
         	products = new ArrayList<SavingsProduct>();
             content = client.get("savingsproducts");
             Gson gson = new Gson();

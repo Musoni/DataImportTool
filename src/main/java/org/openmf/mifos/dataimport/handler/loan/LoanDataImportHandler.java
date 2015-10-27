@@ -260,7 +260,7 @@ public class LoanDataImportHandler extends AbstractDataImportHandler {
     public Result upload() {
         Result result = new Result();
         Sheet loanSheet = workbook.getSheet("Loans");
-        restClient.createAuthToken();
+        
         int progressLevel = 0;
         String loanId;
         for (int i = 0; i < loans.size(); i++) {

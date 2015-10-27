@@ -40,7 +40,7 @@ public class OfficeSheetPopulator extends AbstractWorkbookPopulator {
     public Result downloadAndParse() {
     	Result result = new Result();
         try {
-        	client.createAuthToken();
+        	
         	offices = new ArrayList<Office>();
         	officeNames = new ArrayList<String>();
             content = client.get("offices?limit=-1");

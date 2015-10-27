@@ -47,7 +47,7 @@ public class GroupSheetPopulator extends AbstractWorkbookPopulator {
     public Result downloadAndParse() {
     	Result result = new Result();
     	try {
-        	restClient.createAuthToken();
+        	
         	groups = new ArrayList<CompactGroup>();
             content = restClient.get("groups?paged=true&limit=-1");
             parseGroups();

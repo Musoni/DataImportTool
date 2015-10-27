@@ -63,7 +63,7 @@ public class FixedDepositProductSheetPopulator extends AbstractWorkbookPopulator
     public Result downloadAndParse() {
     	Result result = new Result();
         try {
-        	client.createAuthToken();
+        	
         	products = new ArrayList<FixedDepositProduct>();
             content = client.get("fixeddepositproducts");
             Gson gson = new Gson();

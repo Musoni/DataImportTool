@@ -130,7 +130,7 @@ public class GroupDataImportHandler extends AbstractDataImportHandler {
         Sheet groupSheet = workbook.getSheet("Groups");
         int progressLevel = 0;
         String groupId = "";
-        restClient.createAuthToken();
+        
         for (int i = 0; i < groups.size(); i++) {
         	Row row = groupSheet.getRow(groups.get(i).getRowIndex());
         	Cell errorReportCell = row.createCell(FAILURE_COL);

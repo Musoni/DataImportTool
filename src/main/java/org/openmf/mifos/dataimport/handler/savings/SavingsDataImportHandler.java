@@ -204,7 +204,7 @@ public class SavingsDataImportHandler extends AbstractDataImportHandler {
     public Result upload() {
         Result result = new Result();
         Sheet savingsSheet = workbook.getSheet("Savings");
-        restClient.createAuthToken();
+        
         int progressLevel = 0;
         String savingsId;
         for (int i = 0; i < savings.size(); i++) {

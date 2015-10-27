@@ -65,7 +65,7 @@ public class LoanProductSheetPopulator extends AbstractWorkbookPopulator {
     public Result downloadAndParse() {
     	Result result = new Result();
         try {
-        	client.createAuthToken();
+        	
         	products = new ArrayList<LoanProduct>();
             content = client.get("loanproducts");
             Gson gson = new Gson();

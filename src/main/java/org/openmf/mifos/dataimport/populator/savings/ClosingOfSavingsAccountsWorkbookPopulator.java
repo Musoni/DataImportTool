@@ -78,7 +78,7 @@ public class ClosingOfSavingsAccountsWorkbookPopulator extends AbstractWorkbookP
 				result = clientSheetPopulator.downloadAndParse();
 			if(result.isSuccess()) {
 				try {
-		        	restClient.createAuthToken();
+		        	
 		            content = restClient.get("savingsaccounts?limit=-1");
 		            Gson gson = new Gson();
 		            JsonParser parser = new JsonParser();

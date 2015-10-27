@@ -110,7 +110,7 @@ public class AddGuarantorDataImportHandler extends AbstractDataImportHandler  {
     public Result upload() {
         Result result = new Result();
         Sheet addGuarantorSheet = workbook.getSheet("guarantor");
-        restClient.createAuthToken();
+        
         for (AddGuarantor addGuarantor : guarantors) {
             try {
                 Gson gson = new Gson();

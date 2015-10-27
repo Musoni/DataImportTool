@@ -101,7 +101,7 @@ public class FixedDepositImportHandler extends AbstractDataImportHandler {
 	public Result upload() {
 		Result result = new Result();
         Sheet savingsSheet = workbook.getSheet("FixedDeposit");
-        restClient.createAuthToken();
+        
         int progressLevel = 0;
         String savingsId;
         for (int i = 0; i < savings.size(); i++) {

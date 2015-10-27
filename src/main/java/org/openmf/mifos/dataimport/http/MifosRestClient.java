@@ -9,27 +9,15 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 
-import org.openmf.mifos.dataimport.dto.AuthToken;
 import org.openmf.mifos.dataimport.http.SimpleHttpRequest.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
-
-
 public class MifosRestClient implements RestClient {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MifosRestClient.class);
-    
-    private final String baseURL;
-
-    private final String userName;
-
-    private final String password;
+	private final String baseURL;
 
     private final String tenantId;
 
@@ -57,10 +45,11 @@ public class MifosRestClient implements RestClient {
     public MifosRestClient(HttpServletRequest request) {
 
         this.request = request;
-        baseURL  = System.getProperty("mifos.endpoint");
-        userName = System.getProperty("mifos.user.id");
-        password = System.getProperty("mifos.password");
-        tenantId = System.getProperty("mifos.tenant.id");
+        this.baseURL  = System.getProperty("mifos.endpoint");
+        this.tenantId = System.getProperty("mifos.tenant.id");
+        
+        // set the value of the "authToken" variable to the Authorization from the current HTTP request
+        authToken = this.request.getHeader("Authorization");
     };
 
     public static final class Header {
@@ -74,12 +63,12 @@ public class MifosRestClient implements RestClient {
     public String post(String path, String payload) {
         String url = baseURL + path;
         try {
-
                 SimpleHttpResponse response = new HttpRequestBuilder().withURL(url).withMethod(Method.POST)
-                                .addHeader(Header.AUTHORIZATION, "Basic " + authToken)
+                                .addHeader(Header.AUTHORIZATION, authToken)
                                 .addHeader(Header.CONTENT_TYPE, "application/json; charset=utf-8")
                                 .addHeader(Header.MIFOS_TENANT_ID, tenantId)
                                 .withContent(payload).execute();
+
                 String content = readContentAndClose(response.getContent());
             if (response.getStatus() != HttpURLConnection.HTTP_OK) 
               { 
@@ -96,9 +85,10 @@ public class MifosRestClient implements RestClient {
     	String url = baseURL + path;
     	try {
     		      SimpleHttpResponse response = new HttpRequestBuilder().withURL(url).withMethod(Method.GET)
-    		    		          .addHeader(Header.AUTHORIZATION, "Basic " + authToken)
+    		    		          .addHeader(Header.AUTHORIZATION, authToken)
     		    		          .addHeader(Header.MIFOS_TENANT_ID,tenantId)
     		    		          .execute();
+    		      
     		      String content = readContentAndClose(response.getContent());
     		      if(response.getStatus() != HttpURLConnection.HTTP_OK)
     		      {
@@ -110,27 +100,6 @@ public class MifosRestClient implements RestClient {
     	}
     }
 
-    @Override
-    public void createAuthToken() {
-        authToken = this.request.getHeader("Authorization");
-
-//        String url = baseURL + "authentication?username=" + userName + "&password=" + password;
-//        try {
-
-            authToken = this.request.getHeader("Authorization");
-
-//            SimpleHttpResponse response = new HttpRequestBuilder().withURL(url).withMethod(Method.POST)
-//                        .addHeader(Header.MIFOS_TENANT_ID, tenantId)
-//                        .addHeader(Header.CONTENT_TYPE, "application/json; charset=utf-8").execute();
-//            logger.info("Status: "+response.getStatus());
-//            String content = readContentAndClose(response.getContent());
-//            AuthToken auth = new Gson().fromJson(content, AuthToken.class);
-////            authToken = auth.getBase64EncodedAuthenticationKey();
-//        } catch (IOException e) {
-//            throw new IllegalStateException(e);
-//        }
-    }
-
     private String readContentAndClose(InputStream content) throws IOException {
         InputStreamReader stream = new InputStreamReader(content,"UTF-8");
         BufferedReader reader = new BufferedReader(stream);
@@ -139,5 +108,4 @@ public class MifosRestClient implements RestClient {
         reader.close();
         return data;
     }
-
 }

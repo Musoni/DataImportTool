@@ -66,7 +66,7 @@ private static final Logger logger = LoggerFactory.getLogger(RecurringDepositPro
     public Result downloadAndParse() {
     	Result result = new Result();
         try {
-        	client.createAuthToken();
+        	
         	products = new ArrayList<RecurringDepositProduct>();
             content = client.get("recurringdepositproducts");
             Gson gson = new Gson();

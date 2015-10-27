@@ -77,7 +77,7 @@ private ClosingOfSavingsAccounts paseAsSavingsClosed(Row row) {
 public Result upload() {
 	Result result = new Result();
     Sheet savingsTransactionSheet = workbook.getSheet("ClosingOfSavingsAccounts");
-    restClient.createAuthToken();
+    
     for (ClosingOfSavingsAccounts transaction : closedOnDate) {
         try {
             Gson gson = new Gson();

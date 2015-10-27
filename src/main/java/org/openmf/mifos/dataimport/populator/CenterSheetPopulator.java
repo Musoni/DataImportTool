@@ -47,7 +47,7 @@ public class CenterSheetPopulator extends AbstractWorkbookPopulator {
 	public Result downloadAndParse() {
 		Result result = new Result();
 		try {
-			restClient.createAuthToken();
+			
 			centers = new ArrayList<CompactCenter>();
 			content = restClient.get("centers?paged=true&limit=-1");
 			parseCenters();

@@ -51,7 +51,7 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 	public Result downloadAndParse() {
 		Result result = new Result();
 		try {
-			client.createAuthToken();
+			
 			funds = new ArrayList<Fund>();
 			content = client.get("funds");
 			Gson gson = new Gson();

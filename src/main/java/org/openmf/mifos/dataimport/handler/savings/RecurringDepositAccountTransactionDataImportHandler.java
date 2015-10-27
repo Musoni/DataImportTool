@@ -86,7 +86,7 @@ public class RecurringDepositAccountTransactionDataImportHandler extends Abstrac
     public Result upload() {
         Result result = new Result();
         Sheet savingsTransactionSheet = workbook.getSheet("RecurringDepositTransaction");
-        restClient.createAuthToken();
+        
         for (Transaction transaction : savingsTransactions) {
             try {
                 Gson gson = new Gson();

@@ -47,7 +47,7 @@ public class ClientSheetPopulator extends AbstractWorkbookPopulator {
     public Result downloadAndParse() {
     	Result result = new Result();
     	try {
-        	restClient.createAuthToken();
+        	
         	clients = new ArrayList<CompactClient>();
             content = restClient.get("clients?limit=-1");
             parseClients();

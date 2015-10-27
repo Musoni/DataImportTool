@@ -42,7 +42,7 @@ public class IdentifierTypePopulator extends AbstractWorkbookPopulator {
 	public Result downloadAndParse() {
 		Result result = new Result();
         try {
-        	client.createAuthToken();
+        	
                 identifierTypes = new ArrayList<IdentifierType>();
                 content = client.get("codes/1/codevalues");
                 Gson gson = new Gson();

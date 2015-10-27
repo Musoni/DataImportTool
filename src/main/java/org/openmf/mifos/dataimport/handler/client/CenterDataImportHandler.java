@@ -118,7 +118,7 @@ public class CenterDataImportHandler extends AbstractDataImportHandler   {
         Sheet centerSheet = workbook.getSheet("Centers");
         int progressLevel = 0;
         String centerId = "";
-        restClient.createAuthToken();
+        
         for (int i = 0; i < centers.size(); i++) {
         	Row row = centerSheet.getRow(centers.get(i).getRowIndex());
         	Cell errorReportCell = row.createCell(FAILURE_COL);

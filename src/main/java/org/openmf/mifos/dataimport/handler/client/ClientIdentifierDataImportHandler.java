@@ -83,7 +83,7 @@ public class ClientIdentifierDataImportHandler extends AbstractDataImportHandler
     public Result upload() {
         Result result = new Result();
         Sheet clientIdentifierSheet = workbook.getSheet("ClientIdentifiers");
-        restClient.createAuthToken();
+        
         for (ClientIdentifier clientIdentifier : clientIdentifiers) {
             try {
                 Gson gson = new Gson();

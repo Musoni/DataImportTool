@@ -40,7 +40,7 @@ public class GlAccountSheetPopulator extends AbstractWorkbookPopulator {
 	public Result downloadAndParse() {
 		Result result = new Result();
         try {
-        	client.createAuthToken();
+        	
         	glAccounts = new ArrayList<GlAccount>();
         	glAccountNames = new ArrayList<String>();
             content = client.get("glaccounts");

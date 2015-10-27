@@ -118,7 +118,7 @@ public class DatatableDataImportHandler extends AbstractDataImportHandler {
     public Result upload() {
         Result result = new Result();
         Sheet clientSheet = workbook.getSheet("Clients");
-        restClient.createAuthToken();
+        
         for (Client client : clients) {
             try {
                 Gson gson = new Gson();

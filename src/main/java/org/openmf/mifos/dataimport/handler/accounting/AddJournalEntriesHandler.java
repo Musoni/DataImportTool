@@ -183,7 +183,7 @@ public class AddJournalEntriesHandler extends AbstractDataImportHandler {
 	public Result upload() {
 		Result result = new Result();
 		Sheet addJournalEntriesSheet = workbook.getSheet("AddJournalEntries");
-		restClient.createAuthToken();
+		
 		for (AddJournalEntries transaction : gltransaction) {
 			try {
 				Gson gson = new Gson();

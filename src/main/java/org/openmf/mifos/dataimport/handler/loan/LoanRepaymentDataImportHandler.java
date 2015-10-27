@@ -84,7 +84,7 @@ public class LoanRepaymentDataImportHandler extends AbstractDataImportHandler {
     public Result upload() {
         Result result = new Result();
         Sheet loanRepaymentSheet = workbook.getSheet("LoanRepayment");
-        restClient.createAuthToken();
+
         for (Transaction loanRepayment : loanRepayments) {
             try {
                 Gson gson = new Gson();

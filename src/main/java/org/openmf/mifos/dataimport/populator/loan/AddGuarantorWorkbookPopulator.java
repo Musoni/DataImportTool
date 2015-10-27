@@ -102,7 +102,7 @@ public class AddGuarantorWorkbookPopulator extends AbstractWorkbookPopulator {
 	{
 		Result result=new Result();
 		try {
-        	restClient.createAuthToken();
+        	
             content = restClient.get("savingsaccounts?limit=-1");
             Gson gson = new Gson();
             JsonParser parser = new JsonParser();
@@ -125,7 +125,7 @@ public class AddGuarantorWorkbookPopulator extends AbstractWorkbookPopulator {
 	private Result parseLoans() {
     	Result result = new Result();
     	try {
-        	restClient.createAuthToken();
+        	
             content = restClient.get("loans?limit=-1");
             Gson gson = new Gson();
             JsonParser parser = new JsonParser();

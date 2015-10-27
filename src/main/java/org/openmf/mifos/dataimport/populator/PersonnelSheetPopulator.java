@@ -53,7 +53,7 @@ public class PersonnelSheetPopulator extends AbstractWorkbookPopulator {
 	    public Result downloadAndParse() {
 	        Result result = new Result();
 	        try {
-	        	client.createAuthToken();
+	        	
 	        	personnel = new ArrayList<Personnel>();
 	            content = client.get("staff?limit=-1");
 	            parseStaff();

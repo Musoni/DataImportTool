@@ -86,7 +86,7 @@ public class SavingsTransactionDataImportHandler extends AbstractDataImportHandl
     public Result upload() {
         Result result = new Result();
         Sheet savingsTransactionSheet = workbook.getSheet("SavingsTransaction");
-        restClient.createAuthToken();
+        
         for (Transaction transaction : savingsTransactions) {
             try {
                 Gson gson = new Gson();

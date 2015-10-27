@@ -57,7 +57,7 @@ public class DatatableWorkbookPopulator extends AbstractWorkbookPopulator {
     public Result downloadAndParse() {
         Result result = new Result();
         try {
-                client.createAuthToken();
+                
                 columns = new ArrayList<Column>();
                 content = client.get("datatables/" + datatable + "/");                
                 Gson gson = new Gson();
