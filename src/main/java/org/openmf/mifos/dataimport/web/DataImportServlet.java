@@ -39,7 +39,7 @@ public class DataImportServlet extends HttpServlet {
             ImportFormatType.of(part.getContentType());
             InputStream content = part.getInputStream();
             Workbook workbook = new HSSFWorkbook(content);
-            DataImportHandler handler = ImportHandlerFactory.createImportHandler(workbook);
+            DataImportHandler handler = ImportHandlerFactory.createImportHandler(workbook, request);
             Result result = parseAndUpload(handler);
             writeResult(workbook, result, response);
         } catch (IOException e) {

@@ -9,6 +9,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.openmf.mifos.dataimport.dto.AuthToken;
 import org.openmf.mifos.dataimport.http.SimpleHttpRequest.Method;
@@ -30,6 +33,8 @@ public class MifosRestClient implements RestClient {
 
     private final String tenantId;
 
+    private HttpServletRequest request;
+
     private String authToken;
     
     static {
@@ -49,8 +54,9 @@ public class MifosRestClient implements RestClient {
     	}
 	}
     
-    public MifosRestClient() {
-    	
+    public MifosRestClient(HttpServletRequest request) {
+
+        this.request = request;
         baseURL  = System.getProperty("mifos.endpoint");
         userName = System.getProperty("mifos.user.id");
         password = System.getProperty("mifos.password");
@@ -106,18 +112,23 @@ public class MifosRestClient implements RestClient {
 
     @Override
     public void createAuthToken() {
-        String url = baseURL + "authentication?username=" + userName + "&password=" + password;
-        try {
-            SimpleHttpResponse response = new HttpRequestBuilder().withURL(url).withMethod(Method.POST)
-                        .addHeader(Header.MIFOS_TENANT_ID, tenantId)
-                        .addHeader(Header.CONTENT_TYPE, "application/json; charset=utf-8").execute();
-            logger.info("Status: "+response.getStatus());
-            String content = readContentAndClose(response.getContent());
-            AuthToken auth = new Gson().fromJson(content, AuthToken.class);
-            authToken = auth.getBase64EncodedAuthenticationKey();
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        }
+        authToken = this.request.getHeader("Authorization");
+
+//        String url = baseURL + "authentication?username=" + userName + "&password=" + password;
+//        try {
+
+            authToken = this.request.getHeader("Authorization");
+
+//            SimpleHttpResponse response = new HttpRequestBuilder().withURL(url).withMethod(Method.POST)
+//                        .addHeader(Header.MIFOS_TENANT_ID, tenantId)
+//                        .addHeader(Header.CONTENT_TYPE, "application/json; charset=utf-8").execute();
+//            logger.info("Status: "+response.getStatus());
+//            String content = readContentAndClose(response.getContent());
+//            AuthToken auth = new Gson().fromJson(content, AuthToken.class);
+////            authToken = auth.getBase64EncodedAuthenticationKey();
+//        } catch (IOException e) {
+//            throw new IllegalStateException(e);
+//        }
     }
 
     private String readContentAndClose(InputStream content) throws IOException {

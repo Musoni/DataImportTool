@@ -24,11 +24,13 @@ import org.openmf.mifos.dataimport.populator.savings.SavingsProductSheetPopulato
 import org.openmf.mifos.dataimport.populator.savings.SavingsTransactionWorkbookPopulator;
 import org.openmf.mifos.dataimport.populator.savings.SavingsWorkbookPopulator;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class WorkbookPopulatorFactory {
 	
 	
-	  public static final WorkbookPopulator createWorkbookPopulator(String parameter, String template) throws IOException {
-            MifosRestClient restClient = new MifosRestClient();  
+	  public static final WorkbookPopulator createWorkbookPopulator(String parameter, String template, HttpServletRequest request) throws IOException {
+            MifosRestClient restClient = new MifosRestClient(request);
 		  
 	        if(template.trim().equals("client")) 
 	             return new ClientWorkbookPopulator (parameter, new OfficeSheetPopulator(restClient), new PersonnelSheetPopulator(Boolean.FALSE, restClient), new ExtrasSheetPopulator(restClient));
