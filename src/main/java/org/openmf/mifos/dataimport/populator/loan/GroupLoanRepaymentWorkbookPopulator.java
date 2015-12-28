@@ -123,7 +123,7 @@ public class GroupLoanRepaymentWorkbookPopulator extends AbstractWorkbookPopulat
     	try{
     		for(CompactGroupLoan loan : loans) {
     			row = loanRepaymentSheet.createRow(rowIndex++);
-    			writeString(LOOKUP_GROUP_NAME_COL, row, loan.getGroupName()   + "(" + loan.getGroupId() + ")");
+    			writeString(LOOKUP_GROUP_NAME_COL, row, loan.getGroupName());
     			writeLong(LOOKUP_ACCOUNT_NO_COL, row, Long.parseLong(loan.getAccountNo()));
     			writeString(LOOKUP_PRODUCT_COL, row, loan.getLoanProductName());
     			writeDouble(LOOKUP_PRINCIPAL_COL, row, loan.getPrincipal());
@@ -184,7 +184,7 @@ public class GroupLoanRepaymentWorkbookPopulator extends AbstractWorkbookPopulat
     	try {
     		CellRangeAddressList officeNameRange = new  CellRangeAddressList(1, SpreadsheetVersion.EXCEL97.getLastRowIndex(), OFFICE_NAME_COL, OFFICE_NAME_COL);
         	CellRangeAddressList groupNameRange = new  CellRangeAddressList(1, SpreadsheetVersion.EXCEL97.getLastRowIndex(), GROUP_NAME_COL, GROUP_NAME_COL);
-        	CellRangeAddressList accountNumberRange = new  CellRangeAddressList(1, SpreadsheetVersion.EXCEL97.getLastRowIndex(), LOAN_ACCOUNT_NO_COL, LOAN_ACCOUNT_NO_COL);
+        	// CellRangeAddressList accountNumberRange = new  CellRangeAddressList(1, SpreadsheetVersion.EXCEL97.getLastRowIndex(), LOAN_ACCOUNT_NO_COL, LOAN_ACCOUNT_NO_COL);
         	CellRangeAddressList repaymentTypeRange = new CellRangeAddressList(1, SpreadsheetVersion.EXCEL97.getLastRowIndex(), REPAYMENT_TYPE_COL, REPAYMENT_TYPE_COL);
         	CellRangeAddressList repaymentDateRange = new CellRangeAddressList(1, SpreadsheetVersion.EXCEL97.getLastRowIndex(), REPAID_ON_DATE_COL, REPAID_ON_DATE_COL);
         	
@@ -194,19 +194,19 @@ public class GroupLoanRepaymentWorkbookPopulator extends AbstractWorkbookPopulat
         	
         	DataValidationConstraint officeNameConstraint = validationHelper.createFormulaListConstraint("Office");
         	DataValidationConstraint groupNameConstraint = validationHelper.createFormulaListConstraint("INDIRECT(CONCATENATE(\"Group_\",$A1))");
-        	DataValidationConstraint accountNumberConstraint = validationHelper.createFormulaListConstraint("INDIRECT(CONCATENATE(\"Account_\",SUBSTITUTE(SUBSTITUTE(SUBSTITUTE($B1,\" \",\"_\"),\"(\",\"_\"),\")\",\"_\")))");
+        	// DataValidationConstraint accountNumberConstraint = validationHelper.createFormulaListConstraint("INDIRECT(CONCATENATE(\"Account_\",SUBSTITUTE(SUBSTITUTE(SUBSTITUTE($B1,\" \",\"_\"),\"(\",\"_\"),\")\",\"_\")))");
         	DataValidationConstraint paymentTypeConstraint = validationHelper.createFormulaListConstraint("PaymentTypes");
         	DataValidationConstraint repaymentDateConstraint = validationHelper.createDateConstraint(DataValidationConstraint.OperatorType.BETWEEN, "=VLOOKUP($C1,$P$2:$S$" + (loans.size() + 1) + ",4,FALSE)", "=TODAY()", "dd/mm/yy");
         	
         	DataValidation officeValidation = validationHelper.createValidation(officeNameConstraint, officeNameRange);
         	DataValidation clientValidation = validationHelper.createValidation(groupNameConstraint, groupNameRange);
-        	DataValidation accountNumberValidation = validationHelper.createValidation(accountNumberConstraint, accountNumberRange);
+        	// DataValidation accountNumberValidation = validationHelper.createValidation(accountNumberConstraint, accountNumberRange);
         	DataValidation repaymentTypeValidation = validationHelper.createValidation(paymentTypeConstraint, repaymentTypeRange);
         	DataValidation repaymentDateValidation = validationHelper.createValidation(repaymentDateConstraint, repaymentDateRange);
         	
         	worksheet.addValidationData(officeValidation);
             worksheet.addValidationData(clientValidation);
-            worksheet.addValidationData(accountNumberValidation);
+            // worksheet.addValidationData(accountNumberValidation);
             worksheet.addValidationData(repaymentTypeValidation);
             worksheet.addValidationData(repaymentDateValidation);
         	
@@ -276,7 +276,8 @@ public class GroupLoanRepaymentWorkbookPopulator extends AbstractWorkbookPopulat
     	//Account Number Named  after Clients
     	for(int j = 0; j < groupsWithActiveLoans.size(); j++) {
     		Name name = loanRepaymentWorkbook.createName();
-    		name.setNameName("Account_" + groupsWithActiveLoans.get(j).replaceAll(" ", "_") + "_" + groupIdsWithActiveLoans.get(j) + "_");
+    		name.setNameName("Account_" + groupsWithActiveLoans.get(j).replaceAll(" ", "_") + "_");
+					// + "_" + groupIdsWithActiveLoans.get(j) + "_");
     		name.setRefersToFormula("LoanRepayment!$P$" + groupNameToBeginEndIndexes.get(groupsWithActiveLoans.get(j))[0] + ":$P$" + groupNameToBeginEndIndexes.get(groupsWithActiveLoans.get(j))[1]);
     	}
     	
