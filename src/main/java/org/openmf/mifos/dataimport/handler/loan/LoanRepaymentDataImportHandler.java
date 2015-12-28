@@ -92,7 +92,6 @@ public class LoanRepaymentDataImportHandler extends AbstractDataImportHandler {
                 restClient.post("loans/" + loanRepayment.getAccountId() + "/transactions?command=repayment", payload);
                 Cell statusCell = loanRepaymentSheet.getRow(loanRepayment.getRowIndex()).createCell(STATUS_COL);
                 statusCell.setCellValue("Imported");
-                statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.LIGHT_GREEN));
             } catch (Exception e) {
             	Cell loanAccountIdCell = loanRepaymentSheet.getRow(loanRepayment.getRowIndex()).createCell(LOAN_ACCOUNT_NO_COL);
                 loanAccountIdCell.setCellValue(loanRepayment.getAccountId());
