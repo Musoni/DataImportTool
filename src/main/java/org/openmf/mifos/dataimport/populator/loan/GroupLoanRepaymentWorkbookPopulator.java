@@ -101,7 +101,7 @@ public class GroupLoanRepaymentWorkbookPopulator extends AbstractWorkbookPopulat
             while(iterator.hasNext()) {
             	JsonElement json = iterator.next();
             	CompactGroupLoan loan = gson.fromJson(json, CompactGroupLoan.class);
-            	if(loan.isActive())
+            	if(loan.isActive() && loan.isGroupLoan())
             	  loans.add(loan);
             } 
        } catch (Exception e) {

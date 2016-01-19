@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.Locale;
 
 import org.openmf.mifos.dataimport.dto.Status;
+import org.openmf.mifos.dataimport.utils.StringUtils;
 
 public class CompactLoan {
 
@@ -57,6 +58,10 @@ public class CompactLoan {
 	
 	public LoanTimeline getTimeline() {
 		return timeline;
+	}
+	
+	public boolean isIndividualLoan() {
+	    return StringUtils.isNotBlank(this.clientId);
 	}
 
 	public static final Comparator<CompactLoan> ClientNameComparator = new Comparator<CompactLoan>() {

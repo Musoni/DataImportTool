@@ -56,6 +56,10 @@ public class CompactGroupLoan {
 	public LoanTimeline getTimeline() {
 		return timeline;
 	}
+	
+	public boolean isGroupLoan() {
+	    return (this.group != null);
+    }
 
 	public static final Comparator<CompactGroupLoan> groupNameComparator = new Comparator<CompactGroupLoan>() {
 		
