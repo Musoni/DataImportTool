@@ -102,8 +102,9 @@ public class LoanProductSheetPopulator extends AbstractWorkbookPopulator {
 	            	writeString(NAME_COL, row, product.getName().trim().replaceAll("[ )(]", "_"));
 	            	if(product.getFundName() != null)
 	            	    writeString(FUND_NAME_COL, row, product.getFundName());
-	            	writeInt(PRINCIPAL_COL, row, product.getPrincipal());
-	            	if(product.getMinPrincipal()!= null)
+	            	if(product.getPrincipal() != null)
+						writeInt(PRINCIPAL_COL, row, product.getPrincipal());
+					if(product.getMinPrincipal()!= null)
 	            	    writeInt(MIN_PRINCIPAL_COL, row, product.getMinPrincipal());
 	            	else
 	            		writeInt(MIN_PRINCIPAL_COL, row, 1);

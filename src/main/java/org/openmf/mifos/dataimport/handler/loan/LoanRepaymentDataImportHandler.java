@@ -92,14 +92,13 @@ public class LoanRepaymentDataImportHandler extends AbstractDataImportHandler {
                 restClient.post("loans/" + loanRepayment.getAccountId() + "/transactions?command=repayment", payload);
                 Cell statusCell = loanRepaymentSheet.getRow(loanRepayment.getRowIndex()).createCell(STATUS_COL);
                 statusCell.setCellValue("Imported");
-                //statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.LIGHT_GREEN));
             } catch (Exception e) {
             	Cell loanAccountIdCell = loanRepaymentSheet.getRow(loanRepayment.getRowIndex()).createCell(LOAN_ACCOUNT_NO_COL);
                 loanAccountIdCell.setCellValue(loanRepayment.getAccountId());
             	String message = parseStatus(e.getMessage());
             	Cell statusCell = loanRepaymentSheet.getRow(loanRepayment.getRowIndex()).createCell(STATUS_COL);
             	statusCell.setCellValue(message);
-                //statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.RED));
+                // statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.RED));
                 result.addError("Row = " + loanRepayment.getRowIndex() + " ," + message);
             }
         }
