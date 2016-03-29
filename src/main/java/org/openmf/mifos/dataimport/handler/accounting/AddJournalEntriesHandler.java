@@ -192,8 +192,7 @@ public class AddJournalEntriesHandler extends AbstractDataImportHandler {
 				Cell statusCell = addJournalEntriesSheet.getRow(
 						transaction.getRowIndex()).createCell(STATUS_COL);
 				statusCell.setCellValue("Imported");
-				statusCell.setCellStyle(getCellStyle(workbook,
-						IndexedColors.LIGHT_GREEN));
+				
 			} catch (Exception e) {
 				Cell transactionDateCell = addJournalEntriesSheet.getRow(
 						transaction.getRowIndex()).createCell(
@@ -205,8 +204,7 @@ public class AddJournalEntriesHandler extends AbstractDataImportHandler {
 				Cell statusCell = addJournalEntriesSheet.getRow(
 						transaction.getRowIndex()).createCell(STATUS_COL);
 				statusCell.setCellValue(message);
-				statusCell.setCellStyle(getCellStyle(workbook,
-						IndexedColors.RED));
+
 				result.addError("Row = " + transaction.getRowIndex() + " ,"
 						+ message);
 			}

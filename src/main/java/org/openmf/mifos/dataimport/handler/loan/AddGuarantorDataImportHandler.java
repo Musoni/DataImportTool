@@ -118,14 +118,12 @@ public class AddGuarantorDataImportHandler extends AbstractDataImportHandler  {
                 restClient.post("loans/" + addGuarantor.getAccountId() + "/guarantors", payload);
                 Cell statusCell = addGuarantorSheet.getRow(addGuarantor.getRowIndex()).createCell(STATUS_COL);
                 statusCell.setCellValue("Imported");
-                statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.LIGHT_GREEN));
             } catch (Exception e) {
             	Cell loanAccountIdCell = addGuarantorSheet.getRow(addGuarantor.getRowIndex()).createCell(LOAN_ACCOUNT_NO_COL);
                 loanAccountIdCell.setCellValue(addGuarantor.getAccountId());
             	String message = parseStatus(e.getMessage());
             	Cell statusCell = addGuarantorSheet.getRow(addGuarantor.getRowIndex()).createCell(STATUS_COL);
             	statusCell.setCellValue(message);
-                statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.RED));
                 result.addError("Row = " + addGuarantor.getRowIndex() + " ," + message);
             }
         }

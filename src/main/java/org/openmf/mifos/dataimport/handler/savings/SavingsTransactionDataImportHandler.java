@@ -95,7 +95,6 @@ public class SavingsTransactionDataImportHandler extends AbstractDataImportHandl
                 
                 Cell statusCell = savingsTransactionSheet.getRow(transaction.getRowIndex()).createCell(STATUS_COL);
                 statusCell.setCellValue("Imported");
-                statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.LIGHT_GREEN));
             } catch (Exception e) {
             	Cell savingsAccountIdCell = savingsTransactionSheet.getRow(transaction.getRowIndex()).createCell(SAVINGS_ACCOUNT_NO_COL);
             	savingsAccountIdCell.setCellValue(transaction.getAccountId());
@@ -103,7 +102,6 @@ public class SavingsTransactionDataImportHandler extends AbstractDataImportHandl
             	
             	Cell statusCell = savingsTransactionSheet.getRow(transaction.getRowIndex()).createCell(STATUS_COL);
             	statusCell.setCellValue(message);
-                statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.RED));
                 result.addError("Row = " + transaction.getRowIndex() + " ," + message);
             }
         }

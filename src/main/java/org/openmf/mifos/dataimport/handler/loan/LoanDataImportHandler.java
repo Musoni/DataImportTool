@@ -287,7 +287,6 @@ public class LoanDataImportHandler extends AbstractDataImportHandler {
                 if (loanRepayments.get(i) != null) progressLevel = uploadLoanRepayment(loanId, i);
 
                 statusCell.setCellValue("Imported");
-                statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.LIGHT_GREEN));
             } catch (RuntimeException re) {
                 String message = parseStatus(re.getMessage());
                 String status = "";
@@ -300,7 +299,6 @@ public class LoanDataImportHandler extends AbstractDataImportHandler {
                     status = "Disbursal";
                 else if (progressLevel == 3) status = "Repayment";
                 statusCell.setCellValue(status + " failed.");
-                statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.RED));
 
                 if (progressLevel > 0) row.createCell(LOAN_ID_COL).setCellValue(Integer.parseInt(loanId));
 

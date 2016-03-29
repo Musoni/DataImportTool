@@ -229,7 +229,6 @@ public class SavingsDataImportHandler extends AbstractDataImportHandler {
                 if (progressLevel <= 2) progressLevel = uploadSavingsActivation(savingsId, i);
 
                 statusCell.setCellValue("Imported");
-                statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.LIGHT_GREEN));
             } catch (RuntimeException re) {
                 String message = parseStatus(re.getMessage());
                 String status = "";
@@ -240,7 +239,6 @@ public class SavingsDataImportHandler extends AbstractDataImportHandler {
                     status = "Approval";
                 else if (progressLevel == 2) status = "Activation";
                 statusCell.setCellValue(status + " failed.");
-                statusCell.setCellStyle(getCellStyle(workbook, IndexedColors.RED));
 
                 if (progressLevel > 0) row.createCell(SAVINGS_ID_COL).setCellValue(Integer.parseInt(savingsId));
 
