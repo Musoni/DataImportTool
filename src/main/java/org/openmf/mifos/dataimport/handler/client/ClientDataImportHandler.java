@@ -83,11 +83,11 @@ public class ClientDataImportHandler extends AbstractDataImportHandler {
         String officeId = getIdByName(workbook.getSheet("Offices"), officeName).toString();
         String staffName = readAsString(STAFF_NAME_COL, row);
         String staffId = getIdByName(workbook.getSheet("Staff"), staffName).toString();
-        String externalId = readAsString(EXTERNAL_ID_COL, row);
+        String externalId = readAsStringOrNumeric(EXTERNAL_ID_COL, row);
         String activationDate = readAsDate(ACTIVATION_DATE_COL, row);
         String active = readAsBoolean(ACTIVE_COL, row).toString();
         String dateOfBirth = readAsDate(DOB_COL, row);
-        String mobileNo = readAsString(MOBILE_NO_COL, row).toString();
+        String mobileNo = readAsStringOrNumeric(MOBILE_NO_COL, row);
         
         if(clientType.equals("Individual")) {
             String firstName = readAsString(FIRST_NAME_COL, row);
