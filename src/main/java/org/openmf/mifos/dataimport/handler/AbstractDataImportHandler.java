@@ -79,9 +79,15 @@ public abstract class AbstractDataImportHandler implements DataImportHandler {
 			Cell c = row.getCell(colIndex);
 			if (c == null || c.getCellType() == Cell.CELL_TYPE_BLANK)
 				return "";
-			if(c.getCellType() == Cell.CELL_TYPE_NUMERIC)
-				return String.valueOf(c.getNumericCellValue());
-			return c.getStringCellValue().trim();
+
+			if(c.getCellType() == Cell.CELL_TYPE_STRING)
+				return c.getStringCellValue().trim();
+
+			if(c.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				Long value = ((Double) c.getNumericCellValue()).longValue();
+				return value.toString();
+			}
+			return "";
 		}
 		catch (Exception e) {
 			return ((Double)row.getCell(colIndex).getNumericCellValue()).intValue() + "";
