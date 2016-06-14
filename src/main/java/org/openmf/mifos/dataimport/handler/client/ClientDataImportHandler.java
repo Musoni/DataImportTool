@@ -99,10 +99,7 @@ public class ClientDataImportHandler extends AbstractDataImportHandler {
              if (!gender.equals("")) {
                 genderId = getIdByName(workbook.getSheet("Extras"), gender).toString();
             }
-            
-            if(StringUtils.isBlank(firstName)) {
-            	throw new IllegalArgumentException("Name is blank");
-            }
+
             return new Client(firstName, lastName, middleName, activationDate, active, externalId, officeId, staffId, mobileNo, dateOfBirth, genderId, row.getRowNum());
         } else {
             String fullName = readAsString(FULL_NAME_COL, row);

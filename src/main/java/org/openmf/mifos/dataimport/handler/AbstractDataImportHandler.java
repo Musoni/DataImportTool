@@ -22,8 +22,21 @@ public abstract class AbstractDataImportHandler implements DataImportHandler {
         Integer noOfEntries = 1;
         // getLastRowNum and getPhysicalNumberOfRows showing false values
         // sometimes
-           while (sheet.getRow(noOfEntries) !=null && sheet.getRow(noOfEntries).getCell(primaryColumn) != null) {
-               noOfEntries++;
+           while (sheet.getRow(noOfEntries) !=null ) {
+               if(sheet.getRow(noOfEntries).getCell(primaryColumn) != null)
+			   {
+				   noOfEntries++;
+			   }
+			   else
+			   {
+				   if(sheet.getRow(noOfEntries+1).getCell(primaryColumn) != null)
+				   {
+					   noOfEntries++;
+				   }
+				   else {
+					   break;
+				   }
+			   }
            }
         	
         return noOfEntries;
