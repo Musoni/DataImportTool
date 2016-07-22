@@ -28,11 +28,11 @@ public class LoanProduct {
 	
 	private final Type repaymentFrequencyType;
 	
-	private final Integer interestRatePerPeriod;
+	private final Double interestRatePerPeriod;
 	
-	private final Integer minInterestRatePerPeriod;
+	private final Double minInterestRatePerPeriod;
 	
-	private final Integer maxInterestRatePerPeriod;
+	private final Double maxInterestRatePerPeriod;
 	
 	private final Type interestRateFrequencyType;
 	
@@ -59,7 +59,7 @@ public class LoanProduct {
     private final ArrayList<Integer> closeDate;
 	
 	public LoanProduct(Integer id, String name, String fundName, String status, Integer principal, Integer minPrincipal, Integer maxPrincipal, Integer numberOfRepayments, Integer minNumberOfRepayments,
-			Integer maxNumberOfRepayments, Integer repaymentEvery, Type repaymentFrequencyType, Integer interestRatePerPeriod, Integer minInterestRatePerPeriod, Integer maxInterestRatePerPeriod,
+			Integer maxNumberOfRepayments, Integer repaymentEvery, Type repaymentFrequencyType, Double interestRatePerPeriod, Double minInterestRatePerPeriod, Double maxInterestRatePerPeriod,
 			Type interestRateFrequencyType, Type amortizationType, Type interestType, Type interestCalculationPeriodType, Integer inArrearsTolerance, String transactionProcessingStrategyName,
 			Integer graceOnPrincipalPayment, Integer graceOnInterestPayment, Integer graceOnInterestCharged, ArrayList<Integer> startDate, ArrayList<Integer> closeDate) {
 		this.id = id;
@@ -140,15 +140,15 @@ public class LoanProduct {
     	return this.repaymentFrequencyType;
     }
     
-    public Integer getInterestRatePerPeriod() {
+    public Double getInterestRatePerPeriod() {
     	return this.interestRatePerPeriod;
     }
     
-    public Integer getMinInterestRatePerPeriod() {
+    public Double getMinInterestRatePerPeriod() {
     	return this.minInterestRatePerPeriod;
     }
     
-    public Integer getMaxInterestRatePerPeriod() {
+    public Double getMaxInterestRatePerPeriod() {
     	return this.maxInterestRatePerPeriod;
     }
     

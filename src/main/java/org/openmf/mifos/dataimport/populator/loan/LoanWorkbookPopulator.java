@@ -289,7 +289,7 @@ public class LoanWorkbookPopulator extends AbstractWorkbookPopulator {
 	        	DataValidationConstraint frequencyConstraint = validationHelper.createExplicitListConstraint(new String[] {"Days","Weeks","Months"});
 	        	DataValidationConstraint loanTermConstraint = validationHelper.createIntegerConstraint(DataValidationConstraint.OperatorType.GREATER_OR_EQUAL, "=$L1*$M1", null);
 	        	DataValidationConstraint interestFrequencyConstraint = validationHelper.createFormulaListConstraint("INDIRECT(CONCATENATE(\"INTEREST_FREQUENCY_\",$D1))");
-	        	DataValidationConstraint interestConstraint = validationHelper.createIntegerConstraint(DataValidationConstraint.OperatorType.BETWEEN, "=INDIRECT(CONCATENATE(\"MIN_INTEREST_\",$D1))", "=INDIRECT(CONCATENATE(\"MAX_INTEREST_\",$D1))");
+	        	DataValidationConstraint interestConstraint = validationHelper.createDecimalConstraint(DataValidationConstraint.OperatorType.BETWEEN, "=INDIRECT(CONCATENATE(\"MIN_INTEREST_\",$D1))", "=INDIRECT(CONCATENATE(\"MAX_INTEREST_\",$D1))");
 	        	DataValidationConstraint amortizationConstraint = validationHelper.createExplicitListConstraint(new String[] {"Equal principal payments","Equal installments"});
 	        	DataValidationConstraint interestMethodConstraint = validationHelper.createExplicitListConstraint(new String[] {"Flat","Declining Balance"});
 	        	DataValidationConstraint interestCalculationPeriodConstraint = validationHelper.createExplicitListConstraint(new String[] {"Daily","Same as repayment period"});
@@ -474,7 +474,7 @@ public class LoanWorkbookPopulator extends AbstractWorkbookPopulator {
         		Name graceOnInterestPaymentName = loanWorkbook.createName();
         		Name graceOnInterestChargedName = loanWorkbook.createName();
         		Name startDateName = loanWorkbook.createName();
-        		String productName = products.get(i).getName().replaceAll("[ ]", "_");
+        		String productName = products.get(i).getName().trim().replaceAll("[ )(]", "_");
         	    fundName.setNameName("FUND_" + productName);
         	    principalName.setNameName("PRINCIPAL_" + productName);
         	    minPrincipalName.setNameName("MIN_PRINCIPAL_" + productName);

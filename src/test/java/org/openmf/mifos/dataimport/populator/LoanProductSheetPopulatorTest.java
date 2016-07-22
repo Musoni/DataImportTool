@@ -61,9 +61,9 @@ public class LoanProductSheetPopulatorTest {
     	Assert.assertEquals("24", product.getMaxNumberOfRepayments().toString());
     	Assert.assertEquals("1", product.getRepaymentEvery().toString());
     	Assert.assertEquals("Months", product.getRepaymentFrequencyType().getValue());
-    	Assert.assertEquals("7", product.getInterestRatePerPeriod().toString());
-    	Assert.assertEquals("5", product.getMinInterestRatePerPeriod().toString());
-    	Assert.assertEquals("9", product.getMaxInterestRatePerPeriod().toString());
+    	Assert.assertEquals("7.0", product.getInterestRatePerPeriod().toString());
+    	Assert.assertEquals("5.0", product.getMinInterestRatePerPeriod().toString());
+    	Assert.assertEquals("9.0", product.getMaxInterestRatePerPeriod().toString());
     	Assert.assertEquals("Per year", product.getInterestRateFrequencyType().getValue());
     	Assert.assertEquals("Equal installments", product.getAmortizationType().getValue());
     	Assert.assertEquals("Declining Balance", product.getInterestType().getValue());

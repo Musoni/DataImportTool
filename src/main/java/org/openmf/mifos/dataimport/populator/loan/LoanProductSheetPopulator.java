@@ -123,13 +123,13 @@ public class LoanProductSheetPopulator extends AbstractWorkbookPopulator {
 	            		writeInt(MAX_REPAYMENTS_COL, row, 999999999);
 	            	writeInt(REPAYMENT_EVERY_COL, row, product.getRepaymentEvery());
 	            	writeString(REPAYMENT_FREQUENCY_COL, row, product.getRepaymentFrequencyType().getValue());
-	            	writeInt(INTEREST_RATE_COL, row, product.getInterestRatePerPeriod());
+					writeDouble(INTEREST_RATE_COL, row, product.getInterestRatePerPeriod());
 	            	if(product.getMinInterestRatePerPeriod() != null)
-	            	    writeInt(MIN_INTEREST_RATE_COL, row, product.getMinInterestRatePerPeriod());
+	            	    writeDouble(MIN_INTEREST_RATE_COL, row, product.getMinInterestRatePerPeriod());
 	            	else
-	            		writeInt(MIN_INTEREST_RATE_COL, row, 1);
+						writeDouble(MIN_INTEREST_RATE_COL, row, 1);
 	            	if(product.getMaxInterestRatePerPeriod() != null)
-	            	    writeInt(MAX_INTEREST_RATE_COL, row, product.getMaxInterestRatePerPeriod());
+						writeDouble(MAX_INTEREST_RATE_COL, row, product.getMaxInterestRatePerPeriod());
 	            	else
 	            		writeInt(MAX_INTEREST_RATE_COL, row, 999999999);
 	            	writeString(INTEREST_RATE_FREQUENCY_COL, row, product.getInterestRateFrequencyType().getValue());
