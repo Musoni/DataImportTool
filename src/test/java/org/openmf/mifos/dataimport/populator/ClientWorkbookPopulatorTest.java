@@ -38,7 +38,7 @@ public class ClientWorkbookPopulatorTest {
         		" \"Dzeko, Edin\",\"officeId\": 2,\"officeName\": \"Office1\",\"isLoanOfficer\": true}]");
         Mockito.when(restClient.get("codes/4/codevalues")).thenReturn("[{\"id\": 1,\"name\": \"Male\"}]");
     	        Mockito.when(restClient.get("funds")).thenReturn("[{\"id\": 1,\"name\": \"Fund1\"}]");
-        Mockito.when(restClient.get("codes/12/codevalues")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
+        Mockito.when(restClient.get("paymenttypes")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
         Mockito.when(restClient.get("currencies")).thenReturn("{\n" +
 "    \"selectedCurrencyOptions\": [\n" +
 "        {\n" +

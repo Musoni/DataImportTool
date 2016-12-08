@@ -31,7 +31,7 @@ public class ExtrasSheetPopulatorTest {
     public void shouldDownloadAndParseFundsAndPaymentTypes() {
     	
         Mockito.when(restClient.get("funds")).thenReturn("[{\"id\": 1,\"name\": \"Fund1\"}]");
-        Mockito.when(restClient.get("codes/12/codevalues")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
+		Mockito.when(restClient.get("paymenttypes")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
         Mockito.when(restClient.get("currencies")).thenReturn("{\n" +
 "    \"selectedCurrencyOptions\": [\n" +
 "        {\n" +
@@ -57,7 +57,7 @@ public class ExtrasSheetPopulatorTest {
     	
     	Assert.assertTrue(result.isSuccess());
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("funds");
-    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("codes/12/codevalues");
+    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("paymenttypes");
     	Assert.assertEquals("1", fund.getId().toString());
     	Assert.assertEquals("Fund1", fund.getName());
     	Assert.assertEquals("11", paymentType.getId().toString());
@@ -68,7 +68,7 @@ public class ExtrasSheetPopulatorTest {
     public void shouldPopulateExtrasSheet() {
     	
     	Mockito.when(restClient.get("funds")).thenReturn("[{\"id\": 1,\"name\": \"Fund1\"}]");
-        Mockito.when(restClient.get("codes/12/codevalues")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
+		Mockito.when(restClient.get("paymenttypes")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
         Mockito.when(restClient.get("currencies")).thenReturn("{\n" +
        "    \"selectedCurrencyOptions\": [\n" +
        "        {\n" +
@@ -90,7 +90,7 @@ public class ExtrasSheetPopulatorTest {
     	
     	Assert.assertTrue(result.isSuccess());
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("funds");
-    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("codes/12/codevalues");
+    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("paymenttypes");
     	
     	Sheet extrasSheet = book.getSheet("Extras");
     	Row row = extrasSheet.getRow(1);

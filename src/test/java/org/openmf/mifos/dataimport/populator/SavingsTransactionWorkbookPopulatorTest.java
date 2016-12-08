@@ -53,7 +53,7 @@ public class SavingsTransactionWorkbookPopulatorTest {
         		"\"openingDate\":[2009,1,1],\"hierarchy\": \".\"},{\"id\": 2,\"name\": \"Office1\",\"nameDecorated\": \"....Office1\",\"openingDate\":[2013,4,1]," +
         		"\"hierarchy\": \".2.\",\"parentId\": 1,\"parentName\": \"Head Office\"}]");
 				Mockito.when(restClient.get("funds")).thenReturn("[{\"id\": 1,\"name\": \"Fund1\"}]");
-        Mockito.when(restClient.get("codes/12/codevalues")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
+		Mockito.when(restClient.get("paymenttypes")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
 
         
         Mockito.when(restClient.get("codes/4/codevalues")).thenReturn("[{\"id\": 1,\"name\": \"Male\"}]");
@@ -79,7 +79,7 @@ public class SavingsTransactionWorkbookPopulatorTest {
         Mockito.verify(restClient, Mockito.atLeastOnce()).get("offices?limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("clients?limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("funds");
-        Mockito.verify(restClient, Mockito.atLeastOnce()).get("codes/12/codevalues");
+        Mockito.verify(restClient, Mockito.atLeastOnce()).get("paymenttypes");
         Mockito.verify(restClient, Mockito.atLeastOnce()).get("currencies");
         Mockito.verify(restClient, Mockito.atLeastOnce()).get("codes/4/codevalues");
         Mockito.verify(restClient, Mockito.atLeastOnce()).get("savingsaccounts?limit=-1");

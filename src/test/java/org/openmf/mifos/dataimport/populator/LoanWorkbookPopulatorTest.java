@@ -62,7 +62,7 @@ public class LoanWorkbookPopulatorTest {
     		    "\"code\": \"accountingRuleType.none\",\"value\": \"NONE\"}}]");
     	
     	Mockito.when(restClient.get("funds")).thenReturn("[{\"id\": 1,\"name\": \"Fund1\"}]");
-        Mockito.when(restClient.get("codes/12/codevalues")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
+		Mockito.when(restClient.get("paymenttypes")).thenReturn("[{\"id\": 10,\"name\": \"Cash\",\"position\": 1},{\"id\": 11,\"name\": \"MPesa\",\"position\": 2}]");
 
         
         Mockito.when(restClient.get("codes/4/codevalues")).thenReturn("[{\"id\": 1,\"name\": \"Male\"}]");
@@ -93,7 +93,7 @@ public class LoanWorkbookPopulatorTest {
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("staff?limit=-1");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("loanproducts");
     	Mockito.verify(restClient, Mockito.atLeastOnce()).get("funds");
-    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("codes/12/codevalues");
+    	Mockito.verify(restClient, Mockito.atLeastOnce()).get("paymenttypes");
 	
     	Sheet loanSheet = loanWorkbook.getSheet("Loans");
     	Row row = loanSheet.getRow(0);
