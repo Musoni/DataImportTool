@@ -116,10 +116,12 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 				writeInt(FUND_ID_COL, row, fund.getId());
 				writeString(FUND_NAME_COL, row, fund.getName());
 			}
+
 			int paymentTypeRowIndex = 1;
+            int previousIndex = fundRowIndex;
 			for (PaymentType paymentType : paymentTypes) {
 				Row row;
-				if (paymentTypeRowIndex < fundRowIndex)
+				if (paymentTypeRowIndex < previousIndex)
 					row = extrasSheet.getRow(paymentTypeRowIndex++);
 				else
 					row = extrasSheet.createRow(paymentTypeRowIndex++);
@@ -127,10 +129,16 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 				writeString(PAYMENT_TYPE_NAME_COL, row, paymentType.getName()
 						.trim().replaceAll("[ )(]", "_"));
 			}
+
+            if(paymentTypeRowIndex > previousIndex)
+            {
+                previousIndex = paymentTypeRowIndex;
+            }
+
 			int currencyCodeRowIndex = 1;
 			for (Currency currencie : currencies) {
 				Row row;
-				if (currencyCodeRowIndex < paymentTypeRowIndex)
+				if (currencyCodeRowIndex < previousIndex)
 					row = extrasSheet.getRow(currencyCodeRowIndex++);
 				else
 					row = extrasSheet.createRow(currencyCodeRowIndex++);
@@ -139,13 +147,20 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 						.replaceAll("[ )(]", "_"));
 				writeString(CURRENCY_CODE_COL, row, currencie.getCode());
 			}
-                        int genderRowIndex = 1;
+
+            if(currencyCodeRowIndex > previousIndex)
+            {
+                previousIndex = paymentTypeRowIndex;
+            }
+
+            int genderRowIndex = 1;
 			for (Gender gender : genders) {
 				Row row;
-				if (genderRowIndex < currencyCodeRowIndex)
+				if (genderRowIndex < previousIndex)
 					row = extrasSheet.getRow(genderRowIndex++);
 				else
 					row = extrasSheet.createRow(genderRowIndex++);
+
 				writeInt(GENDER_CODE_COL, row, gender.getId());
 				writeString(GENDER_NAME_COL, row, gender.getName()
 						.trim().replaceAll("[ )(]", "_"));
@@ -154,7 +169,7 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 		} catch (Exception e) {
 			result.addError(e.getMessage());
 			e.printStackTrace();
-		}
+		}gi
 		return result;
 	}
 
