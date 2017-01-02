@@ -169,7 +169,7 @@ public class ExtrasSheetPopulator extends AbstractWorkbookPopulator {
 		} catch (Exception e) {
 			result.addError(e.getMessage());
 			e.printStackTrace();
-		}gi
+		}
 		return result;
 	}
 
