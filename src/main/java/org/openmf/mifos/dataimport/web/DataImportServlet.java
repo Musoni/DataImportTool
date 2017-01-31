@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -21,6 +24,11 @@ import org.openmf.mifos.dataimport.handler.ImportHandlerFactory;
 import org.openmf.mifos.dataimport.handler.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+
 
 @WebServlet(name = "DataImportServlet", urlPatterns = {"/import"})
 @MultipartConfig(maxFileSize=10000000, fileSizeThreshold=10000000)
@@ -91,12 +99,49 @@ public class DataImportServlet extends HttpServlet {
         			+ "</body>"
         			+ "</html>");
         } else {
-        for(String e : result.getErrors())
-            logger.debug("Failed: " + e);
-        String fileName = "Re-Upload.xls";
-		response.setContentType("application/vnd.ms-excel");
-		response.setHeader("Content-Disposition", "attachment;filename="+fileName);
-        workbook.write(stream);
+            for(String e : result.getErrors()) {
+                logger.debug("Failed: " + e);
+            }
+
+            try {
+
+                JavaMailSenderImpl javaMailSenderImpl = new JavaMailSenderImpl();
+
+                Properties properties = new Properties();
+
+                properties.setProperty("mail.smtp.auth", "true");
+                properties.setProperty("mail.smtp.starttls.enable", "true");
+                properties.setProperty("mail.smtp.ssl.trust", System.getProperty("mail.server"));
+
+                javaMailSenderImpl.setHost(System.getProperty("mail.server"));
+                javaMailSenderImpl.setPort(Integer.valueOf(System.getProperty("mail.port")));
+                javaMailSenderImpl.setUsername(System.getProperty("mail.username"));
+                javaMailSenderImpl.setPassword(System.getProperty("mail.password"));
+                javaMailSenderImpl.setJavaMailProperties(properties);
+
+                MimeMessage mimeMessage = javaMailSenderImpl.createMimeMessage();
+
+                // use the true flag to indicate you need a multipart message
+                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+
+                mimeMessageHelper.setTo(System.getProperty("mail.sendto"));
+                mimeMessageHelper.setText("Hatseflats");
+                mimeMessageHelper.setSubject("Cameron messed an import up again");
+
+                // mimeMessageHelper.addAttachment("Re-Upload.xls", stream);
+
+                javaMailSenderImpl.send(mimeMessage);
+            }
+
+            catch (MessagingException f) {
+                // handle the exception
+                f.printStackTrace();
+            }
+
+            String fileName = "Re-Upload.xls";
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "attachment;filename="+fileName);
+            workbook.write(stream);
         }
         out.flush();
         out.close();
