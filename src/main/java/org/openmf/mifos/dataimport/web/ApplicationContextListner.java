@@ -32,6 +32,13 @@ public class ApplicationContextListner implements ServletContextListener {
 			readAndSetAsSysProp("mifos.user.id", "mifos", prop);
 			readAndSetAsSysProp("mifos.password", "testmifos", prop);
 			readAndSetAsSysProp("mifos.tenant.id", "default", prop);
+
+			readAndSetAsSysProp("mifos.mail.server", "localhost", prop);
+			readAndSetAsSysProp("mifos.mail.port", "587", prop);
+			readAndSetAsSysProp("mifos.mail.username", "testmifos", prop);
+			readAndSetAsSysProp("mifos.mail.password", "testmifos", prop);
+			readAndSetAsSysProp("mifos.mail.sendto", "default@mifos.org", prop);
+
 			fis.close();
 		} catch (IOException e) {
 			logger.error("Unable to find dataimport.properties", e);

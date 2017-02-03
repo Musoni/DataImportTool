@@ -1,11 +1,12 @@
 package org.openmf.mifos.dataimport.web;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -105,18 +106,18 @@ public class DataImportServlet extends HttpServlet {
 
             try {
 
+
                 JavaMailSenderImpl javaMailSenderImpl = new JavaMailSenderImpl();
 
                 Properties properties = new Properties();
-
-                properties.setProperty("mail.smtp.auth", "true");
                 properties.setProperty("mail.smtp.starttls.enable", "true");
-                properties.setProperty("mail.smtp.ssl.trust", System.getProperty("mail.server"));
+                properties.setProperty("mail.smtp.auth", "true");
+                properties.setProperty("mail.smtp.ssl.trust", System.getProperty("mifos.mail.server"));
 
-                javaMailSenderImpl.setHost(System.getProperty("mail.server"));
-                javaMailSenderImpl.setPort(Integer.valueOf(System.getProperty("mail.port")));
-                javaMailSenderImpl.setUsername(System.getProperty("mail.username"));
-                javaMailSenderImpl.setPassword(System.getProperty("mail.password"));
+                javaMailSenderImpl.setHost(System.getProperty("mifos.mail.server"));
+                javaMailSenderImpl.setPort(Integer.valueOf(System.getProperty("mifos.mail.port")));
+                javaMailSenderImpl.setUsername(System.getProperty("mifos.mail.username"));
+                javaMailSenderImpl.setPassword(System.getProperty("mifos.mail.password"));
                 javaMailSenderImpl.setJavaMailProperties(properties);
 
                 MimeMessage mimeMessage = javaMailSenderImpl.createMimeMessage();
@@ -124,16 +125,25 @@ public class DataImportServlet extends HttpServlet {
                 // use the true flag to indicate you need a multipart message
                 MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
-                mimeMessageHelper.setTo(System.getProperty("mail.sendto"));
-                mimeMessageHelper.setText("Hatseflats");
-                mimeMessageHelper.setSubject("Cameron messed an import up again");
+                String tenantID = System.getProperty("mifos.tenant.id");
 
-                // mimeMessageHelper.addAttachment("Re-Upload.xls", stream);
+                mimeMessageHelper.setTo(System.getProperty("mifos.mail.sendto"));
+                mimeMessageHelper.setText("See attachment");
+                mimeMessageHelper.setSubject("Data Import for tenant " + tenantID + " failed.");
+
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                workbook.write(bos);
+
+                DataSource aAttachment = new ByteArrayDataSource(bos.toByteArray(),"application/octet-stream");
+                mimeMessageHelper.addAttachment( tenantID + "-Re-Upload.xls", aAttachment);
 
                 javaMailSenderImpl.send(mimeMessage);
+                logger.debug("Re-upload file sent via mail.");
+
             }
 
             catch (MessagingException f) {
+                logger.debug("Mail sending failed!");
                 // handle the exception
                 f.printStackTrace();
             }
