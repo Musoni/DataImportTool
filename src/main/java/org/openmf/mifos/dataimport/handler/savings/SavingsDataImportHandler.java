@@ -135,7 +135,7 @@ public class SavingsDataImportHandler extends AbstractDataImportHandler {
         if (interestCalculationDaysInYearType.equalsIgnoreCase("360 Days"))
             interestCalculationDaysInYearTypeId = "360";
         else if (interestCalculationDaysInYearType.equalsIgnoreCase("365 Days")) interestCalculationDaysInYearTypeId = "365";
-        String minRequiredOpeningBalance = readAsString(MIN_OPENING_BALANCE_COL, row);
+        Double minRequiredOpeningBalance = readAsDouble(MIN_OPENING_BALANCE_COL, row);
         String lockinPeriodFrequency = readAsString(LOCKIN_PERIOD_COL, row);
         String lockinPeriodFrequencyType = readAsString(LOCKIN_PERIOD_FREQUENCY_COL, row);
         String lockinPeriodFrequencyTypeId = "";
