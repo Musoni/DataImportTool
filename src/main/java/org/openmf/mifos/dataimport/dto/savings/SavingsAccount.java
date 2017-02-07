@@ -29,7 +29,7 @@ public class SavingsAccount {
 
     private final String interestCalculationDaysInYearType;
 
-    private final String minRequiredOpeningBalance;
+    private final Double minRequiredOpeningBalance;
 
     private final String lockinPeriodFrequency;
 
@@ -51,7 +51,7 @@ public class SavingsAccount {
 
     public SavingsAccount(String clientId, String productId, String fieldOfficerId, String submittedOnDate,
             String nominalAnnualInterestRate, String interestCompoundingPeriodType, String interestPostingPeriodType,
-            String interestCalculationType, String interestCalculationDaysInYearType, String minRequiredOpeningBalance,
+            String interestCalculationType, String interestCalculationDaysInYearType, Double minRequiredOpeningBalance,
             String lockinPeriodFrequency, String lockinPeriodFrequencyType, String withdrawalFeeForTransfers, Integer rowIndex,
             String status, String externalId, List<Charge> charges, String allowOverdraft ,String overdraftLimit ) {
         this.clientId = clientId;
@@ -109,7 +109,7 @@ public class SavingsAccount {
         return interestCalculationDaysInYearType;
     }
 
-    public String getMinRequiredOpeningBalance() {
+    public Double getMinRequiredOpeningBalance() {
         return minRequiredOpeningBalance;
     }
 
