@@ -68,8 +68,8 @@ public class CompactLoan {
 		
 	@Override
 	public int compare(CompactLoan loan1, CompactLoan loan2) {
-		String clientOfLoan1 = loan1.getClientName().toUpperCase(Locale.ENGLISH);
-		String clientOfLoan2 = loan2.getClientName().toUpperCase(Locale.ENGLISH); 
+		String clientOfLoan1 = loan1.getClientName().toUpperCase(Locale.ENGLISH)  + "_" + loan1.getClientId().toUpperCase(Locale.ENGLISH);
+		String clientOfLoan2 = loan2.getClientName().toUpperCase(Locale.ENGLISH) + "_" + loan2.getClientId().toUpperCase(Locale.ENGLISH);
 		return clientOfLoan1.compareTo(clientOfLoan2);
 	 }
 	};

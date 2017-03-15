@@ -275,15 +275,14 @@ public class SavingsTransactionWorkbookPopulator extends AbstractWorkbookPopulat
     	int startIndex = 1, endIndex = 1;
     	String clientName = "";
     	String clientId = "";
-    	for(int i = 0; i < savings.size(); i++){
-    		if(!clientName.equals(savings.get(i).getClientName())) {
+		Collections.sort(savings, CompactSavingsAccount.ClientNameComparator);
+		for(int i = 0; i < savings.size(); i++){
+    		if(!clientName.equals(savings.get(i).getClientName().replaceAll(" ", "_") + "_" + savings.get(i).getClientId())) {
     			endIndex = i + 1;
     			clientNameToBeginEndIndexes.put(clientName, new Integer[]{startIndex, endIndex});
     			startIndex = i + 2;
-    			clientName = savings.get(i).getClientName();
-    			clientId = savings.get(i).getClientId();
+    			clientName = savings.get(i).getClientName().replaceAll(" ", "_") + "_" + savings.get(i).getClientId();
     			clientsWithActiveSavings.add(clientName);
-    			clientIdsWithActiveSavings.add(clientId);
     		}
     		if(i == savings.size()-1) {
     			endIndex = i + 2;
@@ -294,7 +293,7 @@ public class SavingsTransactionWorkbookPopulator extends AbstractWorkbookPopulat
     	//Account Number Named  after Clients
     	for(int j = 0; j < clientsWithActiveSavings.size(); j++) {
     		Name name = savingsTransactionWorkbook.createName();
-    		name.setNameName("Account_" + clientsWithActiveSavings.get(j).replaceAll(" ", "_") + "_" + clientIdsWithActiveSavings.get(j) + "_");
+    		name.setNameName("Account_" + clientsWithActiveSavings.get(j) + "_");
     		name.setRefersToFormula("SavingsTransaction!$Q$" + clientNameToBeginEndIndexes.get(clientsWithActiveSavings.get(j))[0] + ":$Q$" + clientNameToBeginEndIndexes.get(clientsWithActiveSavings.get(j))[1]);
     	}
     	

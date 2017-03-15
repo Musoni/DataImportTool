@@ -64,8 +64,8 @@ public class CompactSavingsAccount {
 		
 		@Override
 		public int compare(CompactSavingsAccount savings1, CompactSavingsAccount savings2) {
-			String clientOfSavings1 = savings1.getClientName().toUpperCase(Locale.ENGLISH);
-			String clientOfSavings2 = savings2.getClientName().toUpperCase(Locale.ENGLISH); 
+			String clientOfSavings1 = savings1.getClientName().toUpperCase(Locale.ENGLISH) + "_" + savings1.getClientId().toUpperCase(Locale.ENGLISH);
+			String clientOfSavings2 = savings2.getClientName().toUpperCase(Locale.ENGLISH)  + "_" + savings2.getClientId().toUpperCase(Locale.ENGLISH);
 			return clientOfSavings1.compareTo(clientOfSavings2);
 		 }
 		};

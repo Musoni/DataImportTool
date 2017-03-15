@@ -274,15 +274,15 @@ public class LoanRepaymentWorkbookPopulator extends AbstractWorkbookPopulator {
     	int startIndex = 1, endIndex = 1;
     	String clientName = "";
     	String clientId = "";
-    	for(int i = 0; i < loans.size(); i++){
-    		if(!clientName.equals(loans.get(i).getClientName())) {
+		Collections.sort(loans, CompactLoan.ClientNameComparator);
+
+		for(int i = 0; i < loans.size(); i++){
+			if(!clientName.equals(loans.get(i).getClientName().replaceAll(" ", "_") + "_" + loans.get(i).getClientId())) {
     			endIndex = i + 1;
     			clientNameToBeginEndIndexes.put(clientName, new Integer[]{startIndex, endIndex});
     			startIndex = i + 2;
-    			clientName = loans.get(i).getClientName();
-    			clientId = loans.get(i).getClientId();
+    			clientName = loans.get(i).getClientName().replaceAll(" ", "_") + "_" + loans.get(i).getClientId();
     			clientsWithActiveLoans.add(clientName);
-    			clientIdsWithActiveLoans.add(clientId);
     		}
     		if(i == loans.size()-1) {
     			endIndex = i + 2;
@@ -293,7 +293,7 @@ public class LoanRepaymentWorkbookPopulator extends AbstractWorkbookPopulator {
     	//Account Number Named  after Clients
     	for(int j = 0; j < clientsWithActiveLoans.size(); j++) {
     		Name name = loanRepaymentWorkbook.createName();
-    		name.setNameName("Account_" + clientsWithActiveLoans.get(j).replaceAll(" ", "_") + "_" + clientIdsWithActiveLoans.get(j) + "_");
+    		name.setNameName("Account_" + clientsWithActiveLoans.get(j) + "_");
     		name.setRefersToFormula("LoanRepayment!$P$" + clientNameToBeginEndIndexes.get(clientsWithActiveLoans.get(j))[0] + ":$P$" + clientNameToBeginEndIndexes.get(clientsWithActiveLoans.get(j))[1]);
     	}
     	
