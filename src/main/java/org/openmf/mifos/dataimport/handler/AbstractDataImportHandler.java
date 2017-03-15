@@ -69,10 +69,16 @@ public abstract class AbstractDataImportHandler implements DataImportHandler {
     }
     
     protected Double readAsDouble(int colIndex, Row row) {
-    	Cell c = row.getCell(colIndex);
+		Cell c = row.getCell(colIndex);
+
     	if (c == null || c.getCellType() == Cell.CELL_TYPE_BLANK)
     		return 0.0;
-    	return row.getCell(colIndex).getNumericCellValue();
+		try {
+			return row.getCell(colIndex).getNumericCellValue();
+		} catch (RuntimeException re) {
+			return 0.0;
+		}
+
     }
 
     protected String readAsString(int colIndex, Row row) {

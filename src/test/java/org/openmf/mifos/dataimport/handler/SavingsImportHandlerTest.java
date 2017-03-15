@@ -16,11 +16,16 @@ import org.openmf.mifos.dataimport.dto.savings.SavingsAccount;
 import org.openmf.mifos.dataimport.dto.savings.SavingsActivation;
 import org.openmf.mifos.dataimport.handler.savings.SavingsDataImportHandler;
 import org.openmf.mifos.dataimport.http.RestClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SavingsImportHandlerTest {
 
-	@Mock
+    private static final Logger logger = LoggerFactory.getLogger(SavingsImportHandlerTest.class);
+
+
+    @Mock
     RestClient restClient;
     
     @Test
@@ -50,7 +55,7 @@ public class SavingsImportHandlerTest {
         Assert.assertEquals("5", savings.getInterestPostingPeriodType());
         Assert.assertEquals("2", savings.getInterestCalculationType());
         Assert.assertEquals("365", savings.getInterestCalculationDaysInYearType());
-        Assert.assertEquals("1000", savings.getMinRequiredOpeningBalance());
+        Assert.assertEquals("1000.0", savings.getMinRequiredOpeningBalance().toString());
         Assert.assertEquals("1", savings.getLockinPeriodFrequency());
         Assert.assertEquals("0", savings.getLockinPeriodFrequencyType());
         
