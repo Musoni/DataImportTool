@@ -114,26 +114,17 @@ public class DataImportServlet extends HttpServlet {
                 logger.debug("Failed: " + e);
             }
 
-            try {
+            String subject = "Data Import for tenant " + tenantID + " failed.";
+            String body = "See attachment.";
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            workbook.write(bos);
 
-                String subject = "Data Import for tenant " + tenantID + " failed.";
-                String body = "See attachment.";
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                workbook.write(bos);
+            DataSource aAttachment = new ByteArrayDataSource(bos.toByteArray(),"application/octet-stream");
 
-                DataSource aAttachment = new ByteArrayDataSource(bos.toByteArray(),"application/octet-stream");
+            sendMail(tenantID, subject,body,aAttachment);
 
-                sendMail(tenantID, subject,body,aAttachment);
+            logger.debug("Re-upload file sent via mail.");
 
-                logger.debug("Re-upload file sent via mail.");
-
-            }
-
-            catch (MessagingException f) {
-                logger.debug("Mail sending failed!");
-                // handle the exception
-                f.printStackTrace();
-            }
 
             String fileName = "Re-Upload.xls";
             response.setContentType("application/vnd.ms-excel");
@@ -146,34 +137,44 @@ public class DataImportServlet extends HttpServlet {
 
     private void sendMail(String tenantID, String subject, String body, DataSource attachment)
     {
-        JavaMailSenderImpl javaMailSenderImpl = new JavaMailSenderImpl();
 
-        Properties properties = new Properties();
-        properties.setProperty("mail.smtp.starttls.enable", "true");
-        properties.setProperty("mail.smtp.auth", "true");
-        properties.setProperty("mail.smtp.ssl.trust", System.getProperty("mifos.mail.server"));
+        try {
 
-        javaMailSenderImpl.setHost(System.getProperty("mifos.mail.server"));
-        javaMailSenderImpl.setPort(Integer.valueOf(System.getProperty("mifos.mail.port")));
-        javaMailSenderImpl.setUsername(System.getProperty("mifos.mail.username"));
-        javaMailSenderImpl.setPassword(System.getProperty("mifos.mail.password"));
-        javaMailSenderImpl.setJavaMailProperties(properties);
 
-        MimeMessage mimeMessage = javaMailSenderImpl.createMimeMessage();
+            JavaMailSenderImpl javaMailSenderImpl = new JavaMailSenderImpl();
 
-        // use the true flag to indicate you need a multipart message
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+            Properties properties = new Properties();
+            properties.setProperty("mail.smtp.starttls.enable", "true");
+            properties.setProperty("mail.smtp.auth", "true");
+            properties.setProperty("mail.smtp.ssl.trust", System.getProperty("mifos.mail.server"));
 
-        mimeMessageHelper.setTo(System.getProperty("mifos.mail.sendto"));
-        mimeMessageHelper.setText(body);
-        mimeMessageHelper.setSubject(subject);
+            javaMailSenderImpl.setHost(System.getProperty("mifos.mail.server"));
+            javaMailSenderImpl.setPort(Integer.valueOf(System.getProperty("mifos.mail.port")));
+            javaMailSenderImpl.setUsername(System.getProperty("mifos.mail.username"));
+            javaMailSenderImpl.setPassword(System.getProperty("mifos.mail.password"));
+            javaMailSenderImpl.setJavaMailProperties(properties);
 
-        if(attachment != null)
-        {
-            mimeMessageHelper.addAttachment( tenantID + "-Re-Upload.xls", attachment);
+            MimeMessage mimeMessage = javaMailSenderImpl.createMimeMessage();
+
+            // use the true flag to indicate you need a multipart message
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+
+            mimeMessageHelper.setTo(System.getProperty("mifos.mail.sendto"));
+            mimeMessageHelper.setText(body);
+            mimeMessageHelper.setSubject(subject);
+
+            if (attachment != null) {
+                mimeMessageHelper.addAttachment(tenantID + "-Re-Upload.xls", attachment);
+            }
+
+            javaMailSenderImpl.send(mimeMessage);
         }
 
-        javaMailSenderImpl.send(mimeMessage);
+        catch (MessagingException f) {
+            logger.debug("Mail sending failed!");
+            // handle the exception
+            f.printStackTrace();
+        }
     }
 
 }
