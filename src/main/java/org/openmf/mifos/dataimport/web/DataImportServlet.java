@@ -170,7 +170,7 @@ public class DataImportServlet extends HttpServlet {
 
         if(attachment != null)
         {
-            mimeMessageHelper.addAttachment( tenantID + "-Re-Upload.xls", aAttachment);
+            mimeMessageHelper.addAttachment( tenantID + "-Re-Upload.xls", attachment);
         }
 
         javaMailSenderImpl.send(mimeMessage);
