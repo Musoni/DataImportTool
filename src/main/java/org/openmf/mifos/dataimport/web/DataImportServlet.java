@@ -106,7 +106,7 @@ public class DataImportServlet extends HttpServlet {
             String subject = "Data Import for tenant " + tenantID + " done.";
             String body = "Grab a beer and chill out, all done!";
 
-            sendMail(subject,body,null);
+            sendMail(tenantID, subject,body,null);
 
 
         } else {
@@ -123,7 +123,7 @@ public class DataImportServlet extends HttpServlet {
 
                 DataSource aAttachment = new ByteArrayDataSource(bos.toByteArray(),"application/octet-stream");
 
-                sendMail(subject,body,aAttachment);
+                sendMail(tenantID, subject,body,aAttachment);
 
                 logger.debug("Re-upload file sent via mail.");
 
@@ -144,7 +144,7 @@ public class DataImportServlet extends HttpServlet {
         out.close();
     }
 
-    private void sendMail(String subject, String body, DataSource attachment)
+    private void sendMail(String tenantID, String subject, String body, DataSource attachment)
     {
         JavaMailSenderImpl javaMailSenderImpl = new JavaMailSenderImpl();
 
