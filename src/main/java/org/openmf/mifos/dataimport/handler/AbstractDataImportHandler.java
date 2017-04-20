@@ -89,7 +89,7 @@ public abstract class AbstractDataImportHandler implements DataImportHandler {
             return c.getStringCellValue().trim();
 		}
 		 catch (Exception e) {
-			return ((Double)row.getCell(colIndex).getNumericCellValue()).intValue() + "";
+			return ((Double)row.getCell(colIndex).getNumericCellValue()).longValue() + "";
 		}
     }
 
