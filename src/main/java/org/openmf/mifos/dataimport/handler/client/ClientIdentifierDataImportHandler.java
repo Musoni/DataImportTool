@@ -71,7 +71,7 @@ public class ClientIdentifierDataImportHandler extends AbstractDataImportHandler
         String clientId = getIdByName(workbook.getSheet("Clients"), clientName).toString();
         String documentTypeName = readAsString(DOC_TYPE_COL, row);
         String documentTypeId = getIdByName(workbook.getSheet("IdentifierTypes"), documentTypeName).toString();
-        String documentKey = readAsString(DOC_KEY_COL, row);
+        String documentKey = readAsStringOrNumeric(DOC_KEY_COL, row);
         String description = readAsString(DOC_DESC_COL, row);
         
         return new ClientIdentifier(clientId, documentTypeId,  documentKey,  description, row.getRowNum(), null);
