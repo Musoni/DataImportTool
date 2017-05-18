@@ -159,7 +159,10 @@ public class DataImportServlet extends HttpServlet {
             // use the true flag to indicate you need a multipart message
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
+
+
             mimeMessageHelper.setTo(System.getProperty("mifos.mail.sendto"));
+            mimeMessageHelper.setFrom(System.getProperty("mifos.mail.from"));
             mimeMessageHelper.setText(body);
             mimeMessageHelper.setSubject(subject);
 

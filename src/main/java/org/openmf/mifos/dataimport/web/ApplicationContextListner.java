@@ -38,6 +38,7 @@ public class ApplicationContextListner implements ServletContextListener {
 			readAndSetAsSysProp("mifos.mail.username", "testmifos", prop);
 			readAndSetAsSysProp("mifos.mail.password", "testmifos", prop);
 			readAndSetAsSysProp("mifos.mail.sendto", "default@mifos.org", prop);
+			readAndSetAsSysProp("mifos.mail.from", "default@mifos.org", prop);
 
 			fis.close();
 		} catch (IOException e) {
