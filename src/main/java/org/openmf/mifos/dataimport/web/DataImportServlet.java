@@ -147,6 +147,7 @@ public class DataImportServlet extends HttpServlet {
             properties.setProperty("mail.smtp.starttls.enable", "true");
             properties.setProperty("mail.smtp.auth", "true");
             properties.setProperty("mail.smtp.ssl.trust", System.getProperty("mifos.mail.server"));
+            properties.setProperty("mail.smtp.from", System.getProperty("mifos.mail.from"));
 
             javaMailSenderImpl.setHost(System.getProperty("mifos.mail.server"));
             javaMailSenderImpl.setPort(Integer.valueOf(System.getProperty("mifos.mail.port")));
