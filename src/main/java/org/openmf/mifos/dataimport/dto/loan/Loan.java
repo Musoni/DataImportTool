@@ -70,11 +70,15 @@ public class Loan {
 	private final List<Charge> charges;
 	
 	private final String  linkAccountId;
+
+	private final String recalculationRestFrequencyDate;
+	private final String recalculationCompoundingFrequencyDate;
 	
 	public Loan(String loanType, String clientId, String productId, String loanOfficerId, String submittedOnDate, String fundId, String principal, String numberOfRepayments, String repaymentEvery,
 			String repaymentFrequencyType,  String loanTermFrequency, String loanTermFrequencyType, Double interestRatePerPeriod, String expectedDisbursementDate, String amortizationType,
 			String interestType, String interestCalculationPeriodType, String inArrearsTolerance, String transactionProcessingStrategyId, String graceOnPrincipalPayment,
-			String graceOnInterestPayment, String graceOnInterestCharged, String interestChargedFromDate, String repaymentsStartingFromDate, Integer rowIndex, String status,String externalId,String groupId, List<Charge> charges,String linkAccountId) {
+			String graceOnInterestPayment, String graceOnInterestCharged, String interestChargedFromDate, String repaymentsStartingFromDate, Integer rowIndex, String status,
+			String externalId,String groupId, List<Charge> charges,String linkAccountId) {
 		this.amortizationType = amortizationType;
 		this.clientId = clientId;
 		this.expectedDisbursementDate = expectedDisbursementDate;
@@ -107,6 +111,9 @@ public class Loan {
 		this.charges = charges;
 		this.groupId= groupId;
 		this.linkAccountId = linkAccountId;
+		this.recalculationCompoundingFrequencyDate = submittedOnDate;
+		this.recalculationRestFrequencyDate = submittedOnDate;
+
 	}
 	
 	public String getAmortizationType() {
